@@ -1,1 +1,37 @@
-/* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+  font-family: 'Inter', 'Roboto', Arial, sans-serif;
+  background-color: #F5F5F7;
+  color: #1D1D1F;
+  --apple-bg: #FFFFFF;
+  --apple-bg-secondary: #F5F5F7;
+  --apple-bg-tertiary: #E5E5EA;
+  --apple-bg-quaternary: #F2F2F7;
+  --apple-text-primary: #1D1D1F;
+  --apple-text-secondary: #333333;
+  --apple-link: #0071E3;
+  --color-success: #34C759;
+  --color-error: #FF3B30;
+  --color-info: #3b82f6;
+  --color-warning: #FF9500;
+  --color-yellow: #FFD60A;
+  --color-purple: #AF52DE;
+  --teal-accent: #14b8a6;
+  --content-border: #e5e7eb;
+  --shadow-soft: 0 20px 45px rgba(18, 18, 20, 0.18);
+  --border-radius-lg: 18px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background-color: var(--apple-bg-secondary);
+  color: var(--apple-text-primary);
+}

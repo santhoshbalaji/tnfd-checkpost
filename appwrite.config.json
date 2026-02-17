@@ -1,6 +1,7 @@
 {
     "projectId": "checkpost",
     "projectName": "Checkpost",
+    "endpoint": "https://sffcc.tnforest.in/v1",
     "settings": {
         "services": {
             "account": true,
