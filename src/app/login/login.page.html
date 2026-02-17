@@ -1,0 +1,63 @@
+<section class="login-page">
+  <div class="login-card" [class.is-loading]="auth.isLoading()">
+    <div class="login-card__intro">
+      <h1>Sign In</h1>
+      <p>TNFD Checkpost Management System</p>
+    </div>
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="login-card__form" novalidate>
+      <div class="form-field">
+        <label for="email">Email address</label>
+        <input
+          id="email"
+          type="email"
+          formControlName="email"
+          placeholder="Enter your email"
+          autocomplete="email"
+          required
+        />
+        <small class="field-error" *ngIf="emailControl?.invalid && emailControl?.touched">
+          {{ emailControl?.hasError('required') ? 'Email is required.' : 'Use a valid address.' }}
+        </small>
+      </div>
+
+      <div class="form-field">
+        <label for="password">Password</label>
+        <input
+          id="password"
+          type="password"
+          formControlName="password"
+          placeholder="Enter your password"
+          autocomplete="current-password"
+          required
+        />
+        <small class="field-error" *ngIf="passwordControl?.invalid && passwordControl?.touched">
+          {{ passwordControl?.hasError('required')
+            ? 'Password is required.'
+            : 'Passwords must contain at least 6 characters.' }}
+        </small>
+      </div>
+
+      <div class="login-card__status" *ngIf="auth.error()">
+        <p class="flash" aria-live="assertive">
+          <i class="fa-solid fa-circle-exclamation"></i> {{ auth.error() }}
+        </p>
+      </div>
+
+      <button type="submit" class="login-btn" [disabled]="form.invalid || auth.isLoading()">
+        <ng-container *ngIf="!auth.isLoading()">
+          <span>Login to Portal</span>
+          <i class="fa-solid fa-arrow-right"></i>
+        </ng-container>
+        <ng-container *ngIf="auth.isLoading()">
+          <i class="fa-solid fa-circle-notch fa-spin"></i>
+          <span>Authenticating...</span>
+        </ng-container>
+      </button>
+    </form>
+
+    <div class="login-footer">
+      <p>Tamil Nadu Forest Department</p>
+    </div>
+  </div>
+</section>

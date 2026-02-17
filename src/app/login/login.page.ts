@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { AppwriteAuthService } from '../services/appwrite-auth.service';
 
 @Component({
@@ -13,6 +14,7 @@ import { AppwriteAuthService } from '../services/appwrite-auth.service';
 export class LoginPage {
   private readonly fb = inject(FormBuilder);
   public readonly auth = inject(AppwriteAuthService);
+  private readonly router = inject(Router);
 
   readonly form = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
@@ -38,6 +40,7 @@ export class LoginPage {
         this.emailControl?.value ?? '',
         this.passwordControl?.value ?? ''
       );
+      this.router.navigate(['/home']);
     } catch {
       // error signal already surfaces the failure to the template
     }

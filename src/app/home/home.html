@@ -1,0 +1,57 @@
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar__header">
+      <div class="logo">
+        <span class="logo__icon">🌲</span>
+        <span class="logo__text">TNFD MIS</span>
+      </div>
+    </div>
+
+    <nav class="sidebar__nav">
+      <a class="nav-item active">
+        <span class="nav-item__icon">📊</span>
+        <span class="nav-item__label">Dashboard</span>
+      </a>
+      <a class="nav-item">
+        <span class="nav-item__icon">📁</span>
+        <span class="nav-item__label">Records</span>
+      </a>
+      <a class="nav-item">
+        <span class="nav-item__icon">📑</span>
+        <span class="nav-item__label">Reports</span>
+      </a>
+      <a class="nav-item">
+        <span class="nav-item__icon">⚙️</span>
+        <span class="nav-item__label">Settings</span>
+      </a>
+    </nav>
+
+    <div class="sidebar__footer">
+      <div class="user-profile">
+        <div class="user-profile__avatar">
+          {{ auth.userName().charAt(0) }}
+        </div>
+        <div class="user-profile__info">
+          <p class="user-profile__name">{{ auth.userName() }}</p>
+          <p class="user-profile__email">{{ auth.userEmail() }}</p>
+        </div>
+      </div>
+      <button (click)="onLogout()" class="logout-btn" [disabled]="auth.isLoading()">
+        <span class="logout-btn__icon">🚪</span>
+        <span class="logout-btn__label">{{ auth.isLoading() ? 'Logging out...' : 'Logout' }}</span>
+      </button>
+    </div>
+  </aside>
+
+  <main class="content">
+    <header class="content-header">
+      <h1>Dashboard</h1>
+    </header>
+    <div class="content-body">
+      <div class="welcome-card">
+        <h2>Welcome back, {{ auth.userName() }}</h2>
+        <p>You are logged into the Tamil Nadu Forest Department Checkpost MIS.</p>
+      </div>
+    </div>
+  </main>
+</div>

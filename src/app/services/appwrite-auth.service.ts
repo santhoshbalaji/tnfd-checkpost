@@ -1,5 +1,5 @@
-import { Injectable, signal } from '@angular/core';
-import { Account, Client } from 'appwrite';
+import { Injectable, signal, computed } from '@angular/core';
+import { Account, Client, Models } from 'appwrite';
 import { appwriteConfig } from '../appwrite-config';
 
 @Injectable({
@@ -10,6 +10,10 @@ export class AppwriteAuthService {
   readonly isLoading = signal(false);
   readonly error = signal<string | null>(null);
   readonly sessionActive = signal(false);
+  readonly user = signal<Models.User<Models.Preferences> | null>(null);
+
+  readonly userName = computed(() => this.user()?.name ?? 'User');
+  readonly userEmail = computed(() => this.user()?.email ?? '');
 
   constructor() {
     const client = new Client()
@@ -17,6 +21,18 @@ export class AppwriteAuthService {
       .setProject(appwriteConfig.projectId);
 
     this.account = new Account(client);
+    this.checkSession();
+  }
+
+  private async checkSession() {
+    try {
+      const user = await this.account.get();
+      this.user.set(user);
+      this.sessionActive.set(true);
+    } catch {
+      this.user.set(null);
+      this.sessionActive.set(false);
+    }
   }
 
   async login(email: string, password: string): Promise<void> {
@@ -28,9 +44,12 @@ export class AppwriteAuthService {
         email,
         password
       });
+      const user = await this.account.get();
+      this.user.set(user);
       this.sessionActive.set(true);
     } catch (error) {
       this.sessionActive.set(false);
+      this.user.set(null);
       this.error.set(this.normalizeError(error));
       throw error;
     } finally {
@@ -38,11 +57,26 @@ export class AppwriteAuthService {
     }
   }
 
+  async logout(): Promise<void> {
+    this.isLoading.set(true);
+    try {
+      await this.account.deleteSession('current');
+      this.user.set(null);
+      this.sessionActive.set(false);
+    } catch (error) {
+      this.error.set(this.normalizeError(error));
+    } finally {
+      this.isLoading.set(false);
+    }
+  }
+
   async refreshSession(): Promise<void> {
     try {
-      await this.account.get();
+      const user = await this.account.get();
+      this.user.set(user);
       this.sessionActive.set(true);
     } catch (error) {
+      this.user.set(null);
       this.sessionActive.set(false);
       this.error.set(this.normalizeError(error));
     }

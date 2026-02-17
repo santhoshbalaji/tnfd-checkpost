@@ -1,0 +1,225 @@
+:host {
+  width: 100%;
+}
+
+.login-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  background-color: var(--apple-bg-secondary);
+  background-image: radial-gradient(at 0% 0%, rgba(13, 148, 136, 0.05) 0px, transparent 50%), 
+                    radial-gradient(at 100% 100%, rgba(59, 130, 246, 0.05) 0px, transparent 50%);
+}
+
+.login-card {
+  width: 100%;
+  max-width: 440px;
+  background: var(--apple-bg);
+  border-radius: 16px;
+  padding: 2.5rem;
+  border: 1px solid var(--content-border);
+  box-shadow: var(--shadow-soft);
+  display: flex;
+  flex-direction: column;
+}
+
+.login-card__intro {
+  margin-bottom: 2rem;
+  text-align: center;
+
+  h1 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--apple-text-primary);
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.025em;
+  }
+
+  p {
+    color: #6b7280; /* Tailwind gray-500 */
+    font-size: 0.9375rem;
+  }
+}
+
+.login-card__form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #374151; /* Tailwind gray-700 */
+  }
+
+  input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    background-color: #f9fafb; /* Tailwind gray-50 */
+    border: 1px solid #d1d5db; /* Tailwind gray-300 */
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-family: inherit;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    color: var(--apple-text-primary);
+
+    &:focus {
+      outline: none;
+      background-color: white;
+      border-color: var(--p-primary-color);
+      box-shadow: 0 0 0 4px var(--p-primary-light);
+    }
+
+    &::placeholder {
+      color: #9ca3af;
+    }
+  }
+}
+
+.login-btn {
+  margin-top: 0.5rem;
+  padding: 0.75rem;
+  background-color: var(--p-primary-color);
+  color: white;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+
+  &:hover:not(:disabled) {
+    background-color: var(--p-primary-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(13, 148, 136, 0.2);
+  }
+
+  &:active:not(:disabled) {
+    transform: translateY(0);
+  }
+
+  &:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    background-color: #93c5fd; /* placeholder for loading state */
+  }
+}
+
+.login-card__status {
+  min-height: 1.5rem;
+  margin-top: 0.5rem;
+
+  .flash {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--color-error);
+    font-size: 0.8125rem;
+    font-weight: 500;
+    margin: 0;
+  }
+}
+
+.field-error {
+  display: block;
+  margin-top: 0.375rem;
+  font-size: 0.75rem;
+  color: var(--color-error);
+}
+
+.login-footer {
+  margin-top: 2rem;
+  text-align: center;
+  border-top: 1px solid var(--content-border);
+  padding-top: 1.5rem;
+
+  p {
+    font-size: 0.8125rem;
+    color: #9ca3af;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 500;
+  }
+}
+
+.field-error {
+  font-size: 0.78rem;
+  color: var(--color-error);
+  min-height: 1.25rem;
+}
+
+.login-card__status {
+  min-height: 1.5rem;
+}
+
+.status {
+  color: var(--color-info);
+  font-size: 0.85rem;
+}
+
+.flash {
+  margin: 0;
+  color: var(--color-error);
+  font-size: 0.85rem;
+}
+
+button {
+  border: none;
+  border-radius: 14px;
+  padding: 0.95rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #fff;
+  background: linear-gradient(120deg, #0ea5e9, #14b8a6 70%);
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+  box-shadow: 0 15px 30px rgba(20, 184, 166, 0.35);
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: wait;
+  box-shadow: none;
+}
+
+button:not(:disabled):hover {
+  transform: translateY(-1px) scale(1.01);
+}
+
+.login-card__note {
+  font-size: 0.85rem;
+  color: var(--apple-text-secondary);
+  margin: 0;
+}
+
+.login-card__profile {
+  font-size: 0.85rem;
+  color: var(--apple-text-secondary);
+  background: var(--apple-bg-quaternary);
+  padding: 0.85rem 1rem;
+  border-radius: 12px;
+  border: 1px dashed var(--content-border);
+}
+
+.login-card__profile strong {
+  color: var(--apple-text-primary);
+}
+
+@media (max-width: 600px) {
+  .login-card {
+    padding: 2.25rem;
+    border-radius: 16px;
+  }
+}

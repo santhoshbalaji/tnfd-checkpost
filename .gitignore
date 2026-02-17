@@ -6,7 +6,7 @@
 /out-tsc
 /bazel-out
 
-/tnfd-internal-apps
+/tnfd-internal-app
 
 # Node
 /node_modules

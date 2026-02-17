@@ -1,9 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
+/* CSS Variables for TNFD UI/UX Standards - Sync with tnfd-internal-apps */
 :root {
-  font-family: 'Inter', 'Roboto', Arial, sans-serif;
-  background-color: #F5F5F7;
-  color: #1D1D1F;
+  /* Apple-inspired colors */
   --apple-bg: #FFFFFF;
   --apple-bg-secondary: #F5F5F7;
   --apple-bg-tertiary: #E5E5EA;
@@ -11,16 +10,24 @@
   --apple-text-primary: #1D1D1F;
   --apple-text-secondary: #333333;
   --apple-link: #0071E3;
+
+  /* Status colors */
   --color-success: #34C759;
   --color-error: #FF3B30;
   --color-info: #3b82f6;
   --color-warning: #FF9500;
   --color-yellow: #FFD60A;
   --color-purple: #AF52DE;
+
+  /* Primary color theme - Emerald/Teal based */
+  --p-primary-color: #0d9488; /* Tailwind emerald-600 */
+  --p-primary-hover: #0f766e; /* Tailwind emerald-700 */
+  --p-primary-light: #f0fdfa; /* Tailwind emerald-50 */
+  
   --teal-accent: #14b8a6;
   --content-border: #e5e7eb;
-  --shadow-soft: 0 20px 45px rgba(18, 18, 20, 0.18);
-  --border-radius-lg: 18px;
+  --shadow-soft: 0 4px 25px rgba(0, 0, 0, 0.08);
+  --border-radius-lg: 12px;
 }
 
 *,
@@ -32,6 +39,17 @@
 body {
   margin: 0;
   min-height: 100vh;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
   background-color: var(--apple-bg-secondary);
   color: var(--apple-text-primary);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+  letter-spacing: -0.025em;
+}
+
+p {
+  margin: 0;
 }
