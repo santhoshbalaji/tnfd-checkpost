@@ -4,7 +4,7 @@
     <div class="sidebar__header">
       <div class="logo-container">
         <div class="logo-icon">
-          <img src="/tamil-nadu-logo.png" alt="TN Logo">
+          <img ngSrc="/tamil-nadu-logo.png" alt="TN Logo" width="24" height="24" priority>
         </div>
         <div class="logo-text-group">
           <h1 class="logo-title">Checkpost MIS</h1>
@@ -19,6 +19,10 @@
           <i class="pi pi-chart-line"></i>
           <span>Dashboard</span>
         </a>
+          <a routerLink="/home/checkposts" routerLinkActive="active" class="nav-item">
+            <i class="pi pi-list"></i>
+            <span>Checkposts</span>
+          </a>
         <a routerLink="/home/add" routerLinkActive="active" class="nav-item">
           <i class="pi pi-plus-circle"></i>
           <span>Add Checkpost</span>

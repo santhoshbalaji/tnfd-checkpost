@@ -1,0 +1,33 @@
+.checkposts-page {
+  padding: 2.5rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  font-family: 'Inter', sans-serif;
+}
+
+.page-header {
+  margin-bottom: 2rem;
+}
+
+.eyebrow {
+  font-size: 0.75rem;
+  color: #0d9488;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-bottom: 0.25rem;
+  font-weight: 700;
+}
+
+.page-header h1 {
+  margin: 0;
+  font-size: 2.25rem;
+  font-weight: 700;
+  color: var(--apple-text-primary);
+  letter-spacing: -0.025em;
+}
+
+.subtitle {
+  margin-top: 0.5rem;
+  color: var(--apple-text-secondary);
+  font-size: 1rem;
+}

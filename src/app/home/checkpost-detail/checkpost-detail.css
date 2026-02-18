@@ -203,3 +203,152 @@
   opacity: 0.3;
 }
 
+.modern-dialog .p-dialog-content {
+  padding: 0;
+}
+
+.log-form {
+  padding: 2rem;
+  background: var(--surface-ground);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.dialog-intro {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.dialog-title {
+  margin: 0;
+  font-size: 1.3rem;
+}
+
+.dialog-subtitle {
+  margin: 0;
+  color: var(--text-muted);
+}
+
+.dialog-meta-block {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  align-items: flex-end;
+}
+
+.dialog-meta-block .pill {
+  padding: 0.25rem 0.75rem;
+  border-radius: 999px;
+  background: rgba(13, 148, 136, 0.12);
+  color: var(--primary-emerald);
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.meta-value {
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+.dialog-tip {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  border-radius: 12px;
+  background: rgba(15, 118, 110, 0.1);
+  color: var(--text-main);
+}
+
+.dialog-tip i {
+  font-size: 1.25rem;
+  color: #0d9488;
+}
+
+.dialog-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 1rem;
+}
+
+.stat-card {
+  background: white;
+  border-radius: 16px;
+  padding: 1rem;
+  border: 1px solid #e2e8f0;
+  text-align: center;
+}
+
+.stat-card .stat-label {
+  display: block;
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.stat-card strong {
+  font-size: 1.5rem;
+  color: var(--text-main);
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.form-field label {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.form-field input[type='number'],
+.form-field input[type='date'] {
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 0.65rem 0.75rem;
+  font-size: 1rem;
+  color: var(--text-main);
+  font-weight: 500;
+}
+
+.form-warning {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  border-radius: 10px;
+  background: rgba(220, 38, 38, 0.08);
+  color: #991b1b;
+  font-size: 0.9rem;
+}
+
+.form-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+}
+
+.form-note {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+
+.form-note i {
+  color: #0d9488;
+}
+

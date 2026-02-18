@@ -50,7 +50,8 @@ export class CheckpostDetailComponent implements OnInit {
 
   logForm: FormGroup = this.fb.group({
     vehiclesCheckedCount: [0, [Validators.required, Validators.min(0)]],
-    casesRegisteredCount: [0, [Validators.required, Validators.min(0)]]
+    casesRegisteredCount: [0, [Validators.required, Validators.min(0)]],
+    logDate: [this.formatDateForInput(this.today), Validators.required]
   });
 
   async ngOnInit() {
@@ -86,7 +87,8 @@ export class CheckpostDetailComponent implements OnInit {
   }
 
   showLogModal() {
-    this.logForm.reset({ vehiclesCheckedCount: 0, casesRegisteredCount: 0 });
+    const todayValue = this.formatDateForInput(this.today);
+    this.logForm.reset({ vehiclesCheckedCount: 0, casesRegisteredCount: 0, logDate: todayValue });
     this.isLogModalVisible.set(true);
   }
 
@@ -98,9 +100,16 @@ export class CheckpostDetailComponent implements OnInit {
       const cp = this.checkpost();
       if (!cp) return;
 
+      const selectedDate = this.logForm.value.logDate;
+      if (this.isSelectedDateToday() && this.hasLogForToday()) {
+        this.messageService.add({ severity: 'warn', summary: 'Duplicate', detail: 'A log already exists for today.' });
+        this.isSavingLog.set(false);
+        return;
+      }
+
       const logData = {
         checkpostId: cp.$id,
-        logDate: new Date().toISOString(),
+        logDate: new Date(`${selectedDate}T00:00:00`).toISOString(),
         vehiclesCheckedCount: this.logForm.value.vehiclesCheckedCount,
         casesRegisteredCount: this.logForm.value.casesRegisteredCount
       };
@@ -115,5 +124,35 @@ export class CheckpostDetailComponent implements OnInit {
     } finally {
       this.isSavingLog.set(false);
     }
+  }
+
+  hasLogForToday() {
+    const todayKey = this.normalizeDateValue(this.today);
+    return this.dailyLogs().some(log => this.normalizeDateValue(log.logDate) === todayKey);
+  }
+
+  isSelectedDateToday() {
+    const selected = this.logForm.get('logDate')?.value;
+    if (!selected) {
+      return false;
+    }
+    return this.normalizeDateValue(selected) === this.normalizeDateValue(this.today);
+  }
+
+  private normalizeDateValue(value?: string | Date) {
+    if (!value) {
+      return '';
+    }
+    const date = typeof value === 'string' ? new Date(value) : value;
+    if (Number.isNaN(date.getTime())) {
+      return '';
+    }
+    return this.formatDateForInput(date);
+  }
+
+  private formatDateForInput(date: Date) {
+    const offsetMs = date.getTimezoneOffset() * 60000;
+    const local = new Date(date.getTime() - offsetMs);
+    return local.toISOString().split('T')[0];
   }
 }

@@ -3,6 +3,7 @@ import { LoginPage } from './login/login.page';
 import { HomePage } from './home/home';
 import { AddCheckpostComponent } from './add-checkpost/add-checkpost';
 import { DashboardComponent } from './home/dashboard/dashboard';
+import { CheckpostsPage } from './home/checkposts/checkposts';
 import { CheckpostDetailComponent } from './home/checkpost-detail/checkpost-detail';
 import { LogDetailComponent } from './home/log-detail/log-detail';
 
@@ -18,6 +19,10 @@ export const routes: Routes = [
       {
         path: '',
         component: DashboardComponent
+      },
+      {
+        path: 'checkposts',
+        component: CheckpostsPage
       },
       {
         path: 'add',

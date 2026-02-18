@@ -1,0 +1,65 @@
+<div class="checkposts-list">
+  @if (store.isLoading()) {
+    <div class="loader-container">
+      <i class="pi pi-spin pi-spinner emerald-spinner"></i>
+      <p>Loading checkpost data...</p>
+    </div>
+  } @else {
+    <div class="circle-groups">
+      @for (circle of store.circles(); track circle.name) {
+        <section class="circle-section card">
+          <header class="circle-header">
+            <div class="circle-info">
+              <div class="circle-icon">
+                <i class="pi pi-map"></i>
+              </div>
+              <div class="circle-text">
+                <h2>{{ circle.name }} Circle</h2>
+                <span class="count">{{ circle.checkposts.length }} Checkpost{{ circle.checkposts.length !== 1 ? 's' : '' }}</span>
+              </div>
+            </div>
+          </header>
+
+          <div class="checkposts-grid">
+            @for (cp of circle.checkposts; track cp.$id) {
+              <div class="checkpost-card" [routerLink]="['/home/detail', cp.$id]">
+                <div class="cp-card-header">
+                  <h3>{{ cp.name }}</h3>
+                  <span class="range-badge">{{ cp.range }}</span>
+                </div>
+
+                <div class="cp-card-body">
+                  <div class="info-row">
+                    <i class="pi pi-building"></i>
+                    <span>{{ cp.division }}</span>
+                  </div>
+                  <div class="info-row">
+                    <i class="pi pi-phone"></i>
+                    <span>{{ cp.phoneNumber }}</span>
+                  </div>
+                  <div class="info-row">
+                    <i class="pi pi-map-marker"></i>
+                    <span class="address-text">{{ cp.address }}</span>
+                  </div>
+                </div>
+
+                <div class="cp-card-footer">
+                  <div class="coordinates">
+                    <i class="pi pi-globe"></i>
+                    <span>{{ cp.latitude.toFixed(4) }}, {{ cp.longitude.toFixed(4) }}</span>
+                  </div>
+                </div>
+              </div>
+            }
+          </div>
+        </section>
+      } @empty {
+        <div class="empty-state card">
+          <i class="pi pi-info-circle"></i>
+          <p>No checkposts found. Add a new checkpost to get started.</p>
+          <p-button label="Add First Checkpost" icon="pi pi-plus" [routerLink]="['/home/add']"></p-button>
+        </div>
+      }
+    </div>
+  }
+</div>

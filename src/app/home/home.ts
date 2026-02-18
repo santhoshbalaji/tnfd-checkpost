@@ -1,12 +1,11 @@
 import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
 import { AppwriteAuthService } from '../services/appwrite-auth.service';
-import { ButtonModule } from 'primeng/button';
 
 @Component({
   selector: 'app-home',
-  imports: [CommonModule, RouterOutlet, RouterLink, RouterLinkActive, ButtonModule],
+  imports: [CommonModule, NgOptimizedImage, RouterOutlet, RouterLink, RouterLinkActive],
   templateUrl: './home.html',
   styleUrls: ['./home.css'],
   changeDetection: ChangeDetectionStrategy.OnPush

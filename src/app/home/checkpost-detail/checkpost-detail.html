@@ -22,7 +22,7 @@
           <span class="location-badge">{{ cp.circle }} Circle</span>
         </div>
         
-        <div class="header-main">
+          <div class="header-main">
           <div class="title-section">
             <h1>{{ cp.name }}</h1>
             <p class="subtitle">
@@ -112,7 +112,7 @@
           </div>
           <div class="dialog-meta-block">
             <span class="pill">{{ cp.circle }} Circle</span>
-            <span class="meta-value">{{ today | date:'fullDate' }}</span>
+            <span class="meta-value">{{ logForm.get('logDate')?.value | date:'fullDate' }}</span>
           </div>
         </div>
 
@@ -143,6 +143,24 @@
               <input type="number" pInputText formControlName="casesRegisteredCount" placeholder="0" />
             </div>
           </div>
+          <div class="form-grid">
+            <div class="form-field">
+              <label>Log Date</label>
+              <input
+                type="date"
+                pInputText
+                formControlName="logDate"
+                [max]="today | date:'yyyy-MM-dd'"
+              />
+            </div>
+          </div>
+
+          @if (isSelectedDateToday() && hasLogForToday()) {
+            <div class="form-warning">
+              <i class="pi pi-exclamation-triangle"></i>
+              <span>A log is already recorded for today. Pick a previous date to add any missing entries.</span>
+            </div>
+          }
 
           <div class="form-grid full-width" style="margin-top: 1.5rem;">
             <div class="form-note">
@@ -153,7 +171,13 @@
 
           <div class="form-footer">
             <p-button label="Discard" (onClick)="isLogModalVisible.set(false)" [text]="true" severity="secondary" />
-            <p-button label="Finalize Entry" [loading]="isSavingLog()" icon="pi pi-check" (onClick)="saveLog()" [disabled]="logForm.invalid" />
+            <p-button
+              label="Finalize Entry"
+              [loading]="isSavingLog()"
+              icon="pi pi-check"
+              (onClick)="saveLog()"
+              [disabled]="logForm.invalid || (isSelectedDateToday() && hasLogForToday())"
+            />
           </div>
         </form>
       </div>
