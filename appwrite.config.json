@@ -250,7 +250,9 @@
                     "type": "integer",
                     "required": false,
                     "array": false,
-                    "default": 0
+                    "default": 0,
+                    "min": -9223372036854775808,
+                    "max": 9223372036854775807
                 },
                 {
                     "key": "seizedForestOffence",
@@ -310,11 +312,47 @@
                     "encrypt": false
                 },
                 {
+                    "key": "seizedItems",
+                    "type": "string",
+                    "required": false,
+                    "array": false,
+                    "size": 2000,
+                    "default": null,
+                    "encrypt": false
+                },
+                {
+                    "key": "seizedItemsWeight",
+                    "type": "double",
+                    "required": false,
+                    "array": false,
+                    "default": 0,
+                    "min": 0,
+                    "max": 1.7976931348623157e+308
+                },
+                {
+                    "key": "accusedPersonCount",
+                    "type": "integer",
+                    "required": false,
+                    "array": false,
+                    "default": 0,
+                    "min": 0,
+                    "max": 9223372036854775807
+                },
+                {
                     "key": "actionTakenPhone",
                     "type": "string",
                     "required": false,
                     "array": false,
                     "size": 20,
+                    "default": null,
+                    "encrypt": false
+                },
+                {
+                    "key": "actionTakenDesignation",
+                    "type": "string",
+                    "required": false,
+                    "array": false,
+                    "size": 255,
                     "default": null,
                     "encrypt": false
                 },
@@ -357,23 +395,60 @@
                     "type": "datetime",
                     "required": true,
                     "array": false,
-                    "default": null
+                    "default": null,
+                    "format": ""
                 },
                 {
                     "key": "vehiclesCheckedCount",
                     "type": "integer",
                     "required": true,
                     "array": false,
+                    "default": null,
                     "min": 0,
-                    "default": null
+                    "max": 9223372036854775807
                 },
                 {
                     "key": "casesRegisteredCount",
                     "type": "integer",
                     "required": true,
                     "array": false,
+                    "default": null,
                     "min": 0,
-                    "default": null
+                    "max": 9223372036854775807
+                }
+            ],
+            "indexes": []
+        },
+        {
+            "$id": "seized_items",
+            "$permissions": [
+                "read(\"any\")",
+                "create(\"users\")",
+                "update(\"users\")",
+                "delete(\"users\")"
+            ],
+            "databaseId": "main",
+            "name": "Seized Items",
+            "enabled": true,
+            "rowSecurity": false,
+            "columns": [
+                {
+                    "key": "name",
+                    "type": "string",
+                    "required": true,
+                    "array": false,
+                    "size": 255,
+                    "default": null,
+                    "encrypt": false
+                },
+                {
+                    "key": "description",
+                    "type": "string",
+                    "required": false,
+                    "array": false,
+                    "size": 1000,
+                    "default": null,
+                    "encrypt": false
                 }
             ],
             "indexes": []

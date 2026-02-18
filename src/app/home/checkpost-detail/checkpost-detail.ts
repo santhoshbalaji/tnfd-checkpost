@@ -50,7 +50,6 @@ export class CheckpostDetailComponent implements OnInit {
 
   logForm: FormGroup = this.fb.group({
     vehiclesCheckedCount: [0, [Validators.required, Validators.min(0)]],
-    casesRegisteredCount: [0, [Validators.required, Validators.min(0)]],
     logDate: [this.formatDateForInput(this.today), Validators.required]
   });
 
@@ -88,7 +87,7 @@ export class CheckpostDetailComponent implements OnInit {
 
   showLogModal() {
     const todayValue = this.formatDateForInput(this.today);
-    this.logForm.reset({ vehiclesCheckedCount: 0, casesRegisteredCount: 0, logDate: todayValue });
+    this.logForm.reset({ vehiclesCheckedCount: 0, logDate: todayValue });
     this.isLogModalVisible.set(true);
   }
 
@@ -111,7 +110,7 @@ export class CheckpostDetailComponent implements OnInit {
         checkpostId: cp.$id,
         logDate: new Date(`${selectedDate}T00:00:00`).toISOString(),
         vehiclesCheckedCount: this.logForm.value.vehiclesCheckedCount,
-        casesRegisteredCount: this.logForm.value.casesRegisteredCount
+        casesRegisteredCount: 0
       };
 
       const logResponse = await this.checkpostService.createDailyLog(logData);

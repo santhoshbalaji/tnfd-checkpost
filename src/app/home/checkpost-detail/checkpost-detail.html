@@ -116,34 +116,12 @@
           </div>
         </div>
 
-        <div class="dialog-tip">
-          <i class="pi pi-info-circle"></i>
-          <p>Updating this every shift keeps case tracking reliable for the entire circle.</p>
-        </div>
-
-        <div class="dialog-stats">
-          <div class="stat-card">
-            <span class="stat-label">Vehicles Checked</span>
-            <strong>{{ logForm.get('vehiclesCheckedCount')?.value || 0 }}</strong>
-          </div>
-          <div class="stat-card">
-            <span class="stat-label">Cases Registered</span>
-            <strong>{{ logForm.get('casesRegisteredCount')?.value || 0 }}</strong>
-          </div>
-        </div>
-
         <form [formGroup]="logForm">
           <div class="form-grid">
             <div class="form-field">
               <label>Total Vehicles Checked</label>
               <input type="number" pInputText formControlName="vehiclesCheckedCount" placeholder="0" />
             </div>
-            <div class="form-field">
-              <label>Total Cases Registered</label>
-              <input type="number" pInputText formControlName="casesRegisteredCount" placeholder="0" />
-            </div>
-          </div>
-          <div class="form-grid">
             <div class="form-field">
               <label>Log Date</label>
               <input
@@ -161,13 +139,6 @@
               <span>A log is already recorded for today. Pick a previous date to add any missing entries.</span>
             </div>
           }
-
-          <div class="form-grid full-width" style="margin-top: 1.5rem;">
-            <div class="form-note">
-              <i class="pi pi-check-circle"></i>
-              <p>Use whole numbers only. This number powers the safety score card for the range.</p>
-            </div>
-          </div>
 
           <div class="form-footer">
             <p-button label="Discard" (onClick)="isLogModalVisible.set(false)" [text]="true" severity="secondary" />

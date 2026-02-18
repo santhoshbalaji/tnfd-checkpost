@@ -170,43 +170,52 @@
           <h3>Section 2: Seized Items</h3>
         </div>
 
-        <div class="form-grid">
-          <div class="form-field">
-            <div class="checkbox-field">
-              <input type="checkbox" id="seizedMoney" formControlName="seizedMoney" />
-              <label for="seizedMoney">Money Seized</label>
+          <div formArrayName="seizedItems" class="seized-items-grid">
+            <ng-container *ngFor="let entry of seizedItemControls; let index = index">
+              <div
+                [formGroupName]="index"
+                class="seized-item-row"
+                [class.has-custom-label]="entry.get('itemId')?.value === 'others'"
+              >
+              <div class="form-field">
+                <label>Seized Item</label>
+                <select formControlName="itemId">
+                  <option value="" disabled>Select an item</option>
+                  <option *ngFor="let option of seizedItemOptions()" [value]="option.$id">
+                    {{ option.name }} @if (option.description) { - {{ option.description }} }
+                  </option>
+                  <option value="others">Other item (specify)</option>
+                </select>
+              </div>
+              @if (entry.get('itemId')?.value === 'others') {
+                <div class="form-field custom-label-field">
+                  <label>Custom Item Name</label>
+                  <input pInputText formControlName="customLabel" placeholder="Describe the seized item" />
+                </div>
+              }
+              <div class="form-field">
+                <label>Quantity</label>
+                <input type="number" pInputText formControlName="quantity" min="1" />
+              </div>
+              <div class="form-field">
+                <label>Weight (Kgs)</label>
+                <input type="number" pInputText formControlName="weight" min="0" step="0.01" placeholder="Optional" />
+              </div>
+              <div class="form-field">
+                <label>Approximate Value (₹)</label>
+                <input type="number" pInputText formControlName="value" min="0" />
+              </div>
+              <div class="form-actions">
+                @if (seizedItemsArray.length > 1) {
+                  <p-button icon="pi pi-times" [text]="true" (onClick)="removeSeizedItemEntry(index)" />
+                }
+              </div>
             </div>
-            @if (caseForm.get('seizedMoney')?.value) {
-              <input type="number" pInputText formControlName="moneyAmount" placeholder="Amount in ₹" />
-            }
-          </div>
-          <div class="form-field">
-            <div class="checkbox-field">
-              <input type="checkbox" id="seizedForestOffence" formControlName="seizedForestOffence" />
-              <label for="seizedForestOffence">Forest Offence</label>
-            </div>
-            @if (caseForm.get('seizedForestOffence')?.value) {
-              <input pInputText formControlName="forestOffenceDetails" placeholder="Describe forest offence" />
-            }
-          </div>
-          <div class="form-field">
-            <div class="checkbox-field">
-              <input type="checkbox" id="seizedPoliceOffence" formControlName="seizedPoliceOffence" />
-              <label for="seizedPoliceOffence">Police Offence</label>
-            </div>
-            @if (caseForm.get('seizedPoliceOffence')?.value) {
-              <input pInputText formControlName="policeOffenceDetails" placeholder="Describe police offence" />
-            }
-          </div>
-          <div class="form-field">
-            <div class="checkbox-field">
-              <input type="checkbox" id="seizedOtherOffence" formControlName="seizedOtherOffence" />
-              <label for="seizedOtherOffence">Other Offence</label>
-            </div>
-            @if (caseForm.get('seizedOtherOffence')?.value) {
-              <input pInputText formControlName="otherOffenceDetails" placeholder="Details of other case" />
-            }
-          </div>
+          </ng-container>
+        </div>
+
+        <div class="form-footer spaced">
+          <p-button label="Add Another Item" icon="pi pi-plus" (onClick)="addSeizedItemEntry()" [text]="true" />
         </div>
 
         <div class="section-divider">
@@ -220,12 +229,20 @@
             <input pInputText formControlName="caseNumber" placeholder="OR-00/2026" />
           </div>
           <div class="form-field">
+            <label>Accused Person Count</label>
+            <input type="number" pInputText formControlName="accusedPersonCount" min="0" />
+          </div>
+          <div class="form-field">
             <label>Hand Overed To (Name)</label>
             <input pInputText formControlName="actionTakenName" placeholder="Recipient Name" />
           </div>
           <div class="form-field">
             <label>Recipient Phone</label>
             <input pInputText formControlName="actionTakenPhone" placeholder="Mobile Number" />
+          </div>
+          <div class="form-field">
+            <label>Hand Over Recipient Designation *</label>
+            <input pInputText formControlName="actionTakenDesignation" placeholder="Designation" required />
           </div>
         </div>
 
@@ -260,10 +277,6 @@
         <div class="form-field">
           <label>Total Vehicles Checked</label>
           <input type="number" pInputText formControlName="vehiclesCheckedCount" />
-        </div>
-        <div class="form-field">
-          <label>Total Cases Registered</label>
-          <input type="number" pInputText formControlName="casesRegisteredCount" />
         </div>
       </div>
 

@@ -14,6 +14,12 @@ export interface CheckpostData {
   othersDetails: string;
 }
 
+export interface SeizedItemData {
+  $id: string;
+  name: string;
+  description?: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -21,6 +27,9 @@ export class CheckpostService {
   private readonly databases: Databases;
   private readonly DATABASE_ID = 'main'; // You may need to create this in Appwrite
   private readonly COLLECTION_ID = 'checkposts'; // You may need to create this in Appwrite
+  private readonly CASES_COLLECTION = 'cases';
+  private readonly DAILY_LOGS_COLLECTION = 'daily_logs';
+  private readonly SEIZED_ITEMS_COLLECTION = 'seized_items';
 
   constructor() {
     const client = new Client()
@@ -75,7 +84,7 @@ export class CheckpostService {
     try {
       return await this.databases.createDocument(
         this.DATABASE_ID,
-        'daily_logs',
+        this.DAILY_LOGS_COLLECTION,
         ID.unique(),
         data
       );
@@ -89,7 +98,7 @@ export class CheckpostService {
     try {
       return await this.databases.createDocument(
         this.DATABASE_ID,
-        'cases',
+        this.CASES_COLLECTION,
         ID.unique(),
         data
       );
@@ -103,7 +112,7 @@ export class CheckpostService {
     try {
       return await this.databases.updateDocument(
         this.DATABASE_ID,
-        'daily_logs',
+        this.DAILY_LOGS_COLLECTION,
         logId,
         data
       );
@@ -117,7 +126,7 @@ export class CheckpostService {
     try {
       return await this.databases.updateDocument(
         this.DATABASE_ID,
-        'cases',
+        this.CASES_COLLECTION,
         caseId,
         data
       );
@@ -131,7 +140,7 @@ export class CheckpostService {
     try {
       return await this.databases.getDocument(
         this.DATABASE_ID,
-        'daily_logs',
+        this.DAILY_LOGS_COLLECTION,
         logId
       );
     } catch (error) {
@@ -144,7 +153,7 @@ export class CheckpostService {
     try {
       return await this.databases.listDocuments(
         this.DATABASE_ID,
-        'daily_logs',
+        this.DAILY_LOGS_COLLECTION,
         [
           Query.equal('checkpostId', checkpostId),
           Query.orderDesc('logDate')
@@ -160,11 +169,38 @@ export class CheckpostService {
     try {
       return await this.databases.listDocuments(
         this.DATABASE_ID,
-        'cases',
+        this.CASES_COLLECTION,
         [Query.equal('logId', logId)]
       );
     } catch (error) {
       console.error('Error fetching cases:', error);
+      throw error;
+    }
+  }
+
+  async getSeizedItems(limit: number = 100) {
+    try {
+      return await this.databases.listDocuments(
+        this.DATABASE_ID,
+        this.SEIZED_ITEMS_COLLECTION,
+        [Query.limit(limit)]
+      );
+    } catch (error) {
+      console.error('Error fetching seized items:', error);
+      throw error;
+    }
+  }
+
+  async createSeizedItem(data: SeizedItemData) {
+    try {
+      return await this.databases.createDocument(
+        this.DATABASE_ID,
+        this.SEIZED_ITEMS_COLLECTION,
+        ID.unique(),
+        data
+      );
+    } catch (error) {
+      console.error('Error creating seized item:', error);
       throw error;
     }
   }

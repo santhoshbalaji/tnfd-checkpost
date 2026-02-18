@@ -288,6 +288,63 @@ p {
   white-space: nowrap;
 }
 
+.seized-items-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.seized-item-row {
+  display: grid;
+  grid-template-columns: 2fr repeat(3, minmax(150px, 1fr)) 40px;
+  gap: 1rem;
+  align-items: flex-start;
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--apple-bg-tertiary);
+  grid-auto-rows: auto;
+}
+
+.seized-item-row:last-child {
+  border-bottom: none;
+}
+
+.seized-item-row select,
+.seized-item-row input {
+  width: 100%;
+}
+
+.seized-item-row .form-actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.seized-item-row.has-custom-label {
+  grid-template-columns: 2fr repeat(3, minmax(150px, 1fr)) 40px;
+  grid-auto-rows: auto;
+}
+
+.seized-item-row.has-custom-label .form-field {
+  grid-row: 1;
+}
+
+.seized-item-row.has-custom-label .custom-label-field {
+  grid-column: 1 / span 4;
+  grid-row: 2;
+  margin-top: 0.5rem;
+}
+
+@media (max-width: 900px) {
+  .seized-item-row {
+    grid-template-columns: 1fr;
+  }
+
+  .seized-item-row .form-actions {
+    justify-content: flex-start;
+    padding-top: 0.5rem;
+  }
+}
+
 /* Modern Dialog Styles - Global to apply to PrimeNG portalled components */
 .modern-dialog {
   box-shadow: var(--shadow-soft);
@@ -314,8 +371,8 @@ p {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
-  width: 100%;
-  max-width: 800px;
+  width: min(940px, 90vw);
+  max-width: 960px;
 }
 
 .modern-dialog .log-form .form-grid {

@@ -6,6 +6,7 @@ import { DashboardComponent } from './home/dashboard/dashboard';
 import { CheckpostsPage } from './home/checkposts/checkposts';
 import { CheckpostDetailComponent } from './home/checkpost-detail/checkpost-detail';
 import { LogDetailComponent } from './home/log-detail/log-detail';
+import { SeizedItemsPage } from './home/seized-items/seized-items';
 
 export const routes: Routes = [
 	{
@@ -23,6 +24,10 @@ export const routes: Routes = [
       {
         path: 'checkposts',
         component: CheckpostsPage
+      },
+      {
+        path: 'seized-items',
+        component: SeizedItemsPage
       },
       {
         path: 'add',
