@@ -15,17 +15,13 @@
 
     <nav class="sidebar__nav">
       <div class="nav-group">
-        <a routerLink="/home" routerLinkActive="active" class="nav-item">
+        <a routerLink="/home" [routerLinkActiveOptions]="{exact: true}" routerLinkActive="active" class="nav-item">
           <i class="pi pi-chart-line"></i>
           <span>Dashboard</span>
         </a>
-        <a class="nav-item">
-          <i class="pi pi-truck"></i>
-          <span>Vehicles</span>
-        </a>
-        <a class="nav-item">
-          <i class="pi pi-file"></i>
-          <span>Reports</span>
+        <a routerLink="/home/add" routerLinkActive="active" class="nav-item">
+          <i class="pi pi-plus-circle"></i>
+          <span>Add Checkpost</span>
         </a>
       </div>
     </nav>
@@ -43,12 +39,5 @@
 
   <main class="content">
     <router-outlet></router-outlet>
-    
-    <!-- Fallback if no child route is active yet -->
-    <div class="content-body" *ngIf="!hasChildRoute()">
-      <div class="content-header">
-        <h1>Dashboard Overview</h1>
-      </div>
-    </div>
   </main>
 </div>

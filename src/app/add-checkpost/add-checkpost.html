@@ -1,0 +1,64 @@
+<p-toast></p-toast>
+
+<div class="page-container">
+  <header class="page-header">
+    <div class="header-content">
+      <h1 class="page-title">Add New Checkpost</h1>
+      <p class="page-description">Enter the details of the new checkpost to add it to the system.</p>
+    </div>
+  </header>
+
+  <div class="content-body">
+    <form [formGroup]="checkpostForm" (ngSubmit)="onSubmit()" class="form-grid card">
+      <div class="field col-12 md:col-6">
+        <label for="name">Checkpost Name *</label>
+        <input pInputText id="name" formControlName="name" placeholder="Enter checkpost name" class="w-full" />
+      </div>
+
+      <div class="field col-12 md:col-6">
+        <label for="circle">Circle *</label>
+        <input pInputText id="circle" formControlName="circle" placeholder="Enter circle" class="w-full" />
+      </div>
+
+      <div class="field col-12 md:col-6">
+        <label for="division">Division *</label>
+        <input pInputText id="division" formControlName="division" placeholder="Enter division" class="w-full" />
+      </div>
+
+      <div class="field col-12 md:col-6">
+        <label for="range">Range *</label>
+        <input pInputText id="range" formControlName="range" placeholder="Enter range" class="w-full" />
+      </div>
+
+      <div class="field col-12 md:col-6">
+        <label for="phoneNumber">Phone Number *</label>
+        <input pInputText id="phoneNumber" formControlName="phoneNumber" placeholder="Enter phone number" class="w-full" />
+      </div>
+
+      <div class="field col-12 md:col-3">
+        <label for="latitude">Latitude *</label>
+        <input pInputText type="number" step="any" id="latitude" formControlName="latitude" placeholder="Lat" class="w-full" />
+      </div>
+
+      <div class="field col-12 md:col-3">
+        <label for="longitude">Longitude *</label>
+        <input pInputText type="number" step="any" id="longitude" formControlName="longitude" placeholder="Long" class="w-full" />
+      </div>
+
+      <div class="field col-12">
+        <label for="address">Address *</label>
+        <textarea pTextarea id="address" formControlName="address" rows="3" placeholder="Enter full address" class="w-full"></textarea>
+      </div>
+
+      <div class="field col-12">
+        <label for="othersDetails">Others Details</label>
+        <textarea pTextarea id="othersDetails" formControlName="othersDetails" rows="4" placeholder="Any additional information..." class="w-full"></textarea>
+      </div>
+
+      <div class="form-actions col-12">
+        <p-button type="button" label="Cancel" [outlined]="true" severity="secondary" (click)="checkpostForm.reset()"></p-button>
+        <p-button type="submit" label="Save Checkpost" [loading]="isLoading()" [disabled]="checkpostForm.invalid"></p-button>
+      </div>
+    </form>
+  </div>
+</div>

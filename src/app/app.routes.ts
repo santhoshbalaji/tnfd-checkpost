@@ -1,6 +1,8 @@
 import { Routes } from '@angular/router';
 import { LoginPage } from './login/login.page';
 import { HomePage } from './home/home';
+import { AddCheckpostComponent } from './add-checkpost/add-checkpost';
+import { DashboardComponent } from './home/dashboard/dashboard';
 
 export const routes: Routes = [
 	{
@@ -9,7 +11,17 @@ export const routes: Routes = [
 	},
   {
     path: 'home',
-    component: HomePage
+    component: HomePage,
+    children: [
+      {
+        path: '',
+        component: DashboardComponent
+      },
+      {
+        path: 'add',
+        component: AddCheckpostComponent
+      }
+    ]
   },
 	{
 		path: '',

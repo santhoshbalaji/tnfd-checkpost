@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -8,11 +8,11 @@ import { ButtonModule } from 'primeng/button';
 import { PasswordModule } from 'primeng/password';
 
 @Component({
-  standalone: true,
   selector: 'app-login-page',
   imports: [CommonModule, ReactiveFormsModule, InputTextModule, ButtonModule, PasswordModule],
   templateUrl: './login.page.html',
-  styleUrls: ['./login.page.scss']
+  styleUrls: ['./login.page.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LoginPage {
   private readonly fb = inject(FormBuilder);
