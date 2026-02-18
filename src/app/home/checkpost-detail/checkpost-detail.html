@@ -1,0 +1,94 @@
+<div class="detail-container">
+  @if (isLoading()) {
+    <div class="loader-container">
+      <i class="pi pi-spin pi-spinner text-4xl text-primary"></i>
+      <p>Loading checkpost details...</p>
+    </div>
+  } @else if (error()) {
+    <div class="error-container card">
+      <i class="pi pi-exclamation-circle text-red-500 text-4xl"></i>
+      <p>{{ error() }}</p>
+      <p-button label="Back to Dashboard" icon="pi pi-arrow-left" [routerLink]="['/home']"></p-button>
+    </div>
+  } @else if (checkpost(); as cp) {
+    <!-- Header / Top Section with Details -->
+    <header class="detail-header card">
+      <div class="header-top">
+        <p-button icon="pi pi-arrow-left" [text]="true" [routerLink]="['/home']" label="Back"></p-button>
+        <div class="badge-group">
+          <span class="badge badge-primary">{{ cp.circle }} Circle</span>
+          <span class="badge badge-secondary">{{ cp.range }} Range</span>
+        </div>
+      </div>
+
+      <div class="header-main">
+        <div class="title-section">
+          <h1>{{ cp.name }}</h1>
+          <div class="division-text">
+            <i class="pi pi-building"></i>
+            <span>{{ cp.division }} Division</span>
+          </div>
+        </div>
+        <div class="actions">
+          <p-button label="Edit Details" icon="pi pi-pencil" [outlined]="true"></p-button>
+        </div>
+      </div>
+
+      <div class="header-stats">
+        <div class="stat-item">
+          <div class="stat-icon"><i class="pi pi-phone"></i></div>
+          <div class="stat-content">
+            <span class="stat-label">Phone Number</span>
+            <span class="stat-value">{{ cp.phoneNumber }}</span>
+          </div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-icon"><i class="pi pi-map-marker"></i></div>
+          <div class="stat-content">
+            <span class="stat-label">Address</span>
+            <span class="stat-value">{{ cp.address }}</span>
+          </div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-icon"><i class="pi pi-globe"></i></div>
+          <div class="stat-content">
+            <span class="stat-label">Location</span>
+            <span class="stat-value">{{ cp.latitude.toFixed(6) }}, {{ cp.longitude.toFixed(6) }}</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="detail-content">
+      <div class="grid-layout">
+        <section class="info-section card">
+          <div class="section-header">
+            <i class="pi pi-info-circle"></i>
+            <h2>Additional Information</h2>
+          </div>
+          <div class="section-body">
+            @if (cp.othersDetails) {
+              <p class="others-text">{{ cp.othersDetails }}</p>
+            } @else {
+              <p class="empty-text">No additional details provided.</p>
+            }
+          </div>
+        </section>
+
+        <section class="map-placeholder card">
+          <div class="section-header">
+            <i class="pi pi-map"></i>
+            <h2>Location Map</h2>
+          </div>
+          <div class="section-body map-box">
+             <div class="placeholder-content">
+               <i class="pi pi-map-marker text-4xl text-primary"></i>
+               <p>Map visualization will be integrated here.</p>
+               <span class="coords">{{ cp.latitude }}, {{ cp.longitude }}</span>
+             </div>
+          </div>
+        </section>
+      </div>
+    </main>
+  }
+</div>

@@ -36,7 +36,7 @@
 
             <div class="checkposts-grid">
               @for (cp of circle.checkposts; track cp.$id) {
-                <div class="checkpost-card shadow-sm">
+                <div class="checkpost-card shadow-sm" [routerLink]="['/home/detail', cp.$id]" style="cursor: pointer;">
                   <div class="cp-card-header">
                     <h3>{{ cp.name }}</h3>
                     <span class="range-badge">{{ cp.range }}</span>

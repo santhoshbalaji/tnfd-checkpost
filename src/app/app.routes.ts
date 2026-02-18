@@ -3,6 +3,7 @@ import { LoginPage } from './login/login.page';
 import { HomePage } from './home/home';
 import { AddCheckpostComponent } from './add-checkpost/add-checkpost';
 import { DashboardComponent } from './home/dashboard/dashboard';
+import { CheckpostDetailComponent } from './home/checkpost-detail/checkpost-detail';
 
 export const routes: Routes = [
 	{
@@ -20,6 +21,10 @@ export const routes: Routes = [
       {
         path: 'add',
         component: AddCheckpostComponent
+      },
+      {
+        path: 'detail/:id',
+        component: CheckpostDetailComponent
       }
     ]
   },

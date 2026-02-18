@@ -43,6 +43,19 @@ export class CheckpostService {
     }
   }
 
+  async getCheckpost(id: string) {
+    try {
+      return await this.databases.getDocument(
+        this.DATABASE_ID,
+        this.COLLECTION_ID,
+        id
+      );
+    } catch (error) {
+      console.error('Error fetching checkpost:', error);
+      throw error;
+    }
+  }
+
   async createCheckpost(data: CheckpostData) {
     try {
       return await this.databases.createDocument(
