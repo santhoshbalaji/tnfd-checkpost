@@ -49,8 +49,13 @@ You are an expert in TypeScript, Angular, and scalable web application developme
 - Do not assume globals like (`new Date()`) are available.
 - Do not write arrow functions in templates (they are not supported).
 
-## Services
+## UI/UX Standards
 
-- Design services around a single responsibility
-- Use the `providedIn: 'root'` option for singleton services
-- Use the `inject()` function instead of constructor injection
+- Design MUST follow the TNFD internal app standards (Apple-inspired aesthetic).
+- Use the predefined CSS variables in `styles.scss` for colors, spacing, and shadows.
+- Primary color theme: Teal/Emerald (`--p-primary-color: #0d9488`).
+- Font: Use **Inter** with specific weights (400, 500, 600, 700).
+- Components should have rounded corners (`--border-radius-lg: 12px` or 16px for cards).
+- Use Font Awesome 6.4.0+ for all iconography.
+
+## Services

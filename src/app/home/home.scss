@@ -7,173 +7,186 @@
 }
 
 .sidebar {
-  width: 280px;
+  width: 288px; // w-72
   background-color: var(--apple-bg);
-  border-right: 1px solid var(--content-border);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); // shadow-xl
   display: flex;
   flex-direction: column;
-  padding: 1rem;
+  height: 100%;
+  border-right: 1px solid var(--content-border);
+  padding: 0; // Remove previous padding to allow header background to fill
 }
 
 .sidebar__header {
-  padding: 1rem 0;
-  margin-bottom: 1.5rem;
+  padding: 1rem;
+  border-bottom: 1px solid var(--content-border);
+  background: linear-gradient(to right, #005ea2, #004d87); // from primary-500 to primary-600
 }
 
-.logo {
+.logo-container {
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  padding: 0.5rem;
 }
 
-.logo__icon {
-  font-size: 1.5rem;
-  background: var(--p-primary-color);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+.logo-icon {
+  width: 32px;
+  height: 32px;
+  background-color: white;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+
+  img {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+  }
 }
 
-.logo__text {
-  font-weight: 700;
-  font-size: 1.25rem;
-  color: var(--apple-text-primary);
-  letter-spacing: -0.02em;
+.logo-text-group {
+  .logo-title {
+    font-size: 1.125rem; // text-lg
+    font-weight: 700;
+    color: white;
+    letter-spacing: -0.025em;
+    margin: 0;
+    line-height: 1.2;
+  }
+
+  .logo-subtitle {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.75rem; // text-xs
+    font-weight: 500;
+    margin: 0;
+  }
 }
 
 .sidebar__nav {
+  margin-top: 2rem;
   flex: 1;
+  padding: 0 1rem;
+}
+
+.nav-group {
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
+  gap: 0.5rem;
 }
 
 .nav-item {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  padding: 0.75rem 0.875rem;
+  padding: 0.75rem 1rem;
+  color: #374151; // text-surface-700
   border-radius: 8px;
   text-decoration: none;
-  color: #4b5563; /* Tailwind gray-600 */
-  font-size: 0.9375rem;
   font-weight: 500;
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   cursor: pointer;
 
   i {
-    width: 1.25rem;
-    font-size: 1.1rem;
-    display: flex;
-    justify-content: center;
+    font-size: 1.125rem;
+    margin-right: 0.75rem;
+    color: inherit;
+    transition: transform 0.2s;
   }
 
   &:hover {
-    background-color: var(--p-primary-light);
-    color: var(--p-primary-color);
+    background-color: #f3f4f6; // hover:bg-surface-100
+    color: #111827; // hover:text-surface-900
+
+    i {
+      transform: scale(1.1);
+    }
   }
 
   &.active {
     background-color: var(--p-primary-light);
     color: var(--p-primary-color);
+    border-right: 4px solid var(--p-primary-color);
+    border-radius: 8px 0 0 8px;
     font-weight: 600;
   }
 }
 
 .sidebar__footer {
-  margin-top: auto;
-  padding-top: 1rem;
+  padding: 1rem;
   border-top: 1px solid var(--content-border);
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
+  margin-top: auto;
 }
 
-.user-profile {
+.user-info-row {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  padding: 0.5rem 0.75rem;
-  background-color: var(--apple-bg-secondary);
-  border-radius: 12px;
+  justify-content: space-between;
+  gap: 0.5rem;
 }
 
-.user-profile__avatar {
-  width: 36px;
-  height: 36px;
-  background-color: var(--p-primary-color);
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  font-weight: 600;
-  font-size: 0.95rem;
-}
-
-.user-profile__info {
+.user-welcome {
+  font-size: 0.75rem; // text-xs
+  color: #4b5563; // text-surface-600
+  padding: 0 0.5rem;
   overflow: hidden;
-
-  p {
-    margin: 0;
-    line-height: normal;
-  }
-}
-
-.user-profile__name {
-  font-weight: 600;
-  color: var(--apple-text-primary);
-  font-size: 0.875rem;
-  white-space: nowrap;
   text-overflow: ellipsis;
-  overflow: hidden;
-}
-
-.user-profile__email {
-  color: #6b7280; /* Tailwind gray-500 */
-  font-size: 0.75rem;
   white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden;
 }
 
 .logout-btn {
+  background-color: #dc2626; // bg-red-600
+  color: white;
+  padding: 0.375rem 0.75rem;
+  border-radius: 8px;
+  font-size: 0.75rem; // text-xs
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  padding: 0.75rem;
-  border-radius: 8px;
-  border: 1px solid #fecaca; /* Tailwind red-200 */
-  background-color: #fef2f2; /* Tailwind red-50 */
-  color: #dc2626; /* Tailwind red-600 */
-  font-size: 0.875rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  width: 100%;
+  gap: 0.375rem;
+  transition: background-color 0.2s;
 
   &:hover:not(:disabled) {
-    background-color: #fee2e2;
-    border-color: #fca5a5;
+    background-color: #b91c1c; // hover:bg-red-700
   }
 
   &:disabled {
     opacity: 0.5;
     cursor: not-allowed;
   }
+
+  i {
+    font-size: 0.875rem;
+  }
 }
 
 .content {
   flex: 1;
-  padding: 2.5rem;
+  padding: 0; // Use internal body for padding
   overflow-y: auto;
+  background-color: var(--apple-bg-secondary);
+}
+
+.content-body {
+  padding: 2.5rem;
   max-width: 1200px;
   margin: 0 auto;
 }
 
+::ng-deep .welcome-card {
+  border: 1px solid var(--content-border) !important;
+  box-shadow: var(--shadow-soft) !important;
+
+  .p-card-body {
+    padding: 2rem !important;
+  }
+}
+
 .content-header {
-  margin-bottom: 2.5rem;
+  margin-bottom: 2rem;
 
   h1 {
     font-size: 2rem;
@@ -181,28 +194,5 @@
     margin: 0;
     letter-spacing: -0.025em;
     color: var(--apple-text-primary);
-  }
-}
-
-.welcome-card {
-  background-color: var(--apple-bg);
-  border-radius: var(--border-radius-lg);
-  padding: 2rem;
-  border: 1px solid var(--content-border);
-  box-shadow: var(--shadow-soft);
-
-  h2 {
-    margin-top: 0;
-    margin-bottom: 0.75rem;
-    color: var(--apple-text-primary);
-    font-size: 1.25rem;
-    font-weight: 600;
-  }
-
-  p {
-    margin: 0;
-    color: #4b5563; /* Tailwind gray-600 */
-    font-size: 0.9375rem;
-    line-height: 1.5;
   }
 }

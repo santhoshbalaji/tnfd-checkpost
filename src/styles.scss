@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import "primeicons/primeicons.css";
 
 /* CSS Variables for TNFD UI/UX Standards - Sync with tnfd-internal-apps */
 :root {
@@ -19,12 +20,12 @@
   --color-yellow: #FFD60A;
   --color-purple: #AF52DE;
 
-  /* Primary color theme - Emerald/Teal based */
-  --p-primary-color: #0d9488; /* Tailwind emerald-600 */
-  --p-primary-hover: #0f766e; /* Tailwind emerald-700 */
-  --p-primary-light: #f0fdfa; /* Tailwind emerald-50 */
+  /* Primary color theme - Navy based (Sync with Repeater Tracker) */
+  --p-primary-color: #005ea2;
+  --p-primary-hover: #004d87;
+  --p-primary-light: #EAF6FE;
   
-  --teal-accent: #14b8a6;
+  --teal-accent: #0071E3; /* Reusing variable name but mapped to blue for intent */
   --content-border: #e5e7eb;
   --shadow-soft: 0 4px 25px rgba(0, 0, 0, 0.08);
   --border-radius-lg: 12px;

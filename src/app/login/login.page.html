@@ -11,10 +11,12 @@
         <input
           id="email"
           type="email"
+          pInputText
           formControlName="email"
           placeholder="Enter your email"
           autocomplete="email"
           required
+          class="w-full"
         />
         <small class="field-error" *ngIf="emailControl?.invalid && emailControl?.touched">
           {{ emailControl?.hasError('required') ? 'Email is required.' : 'Use a valid address.' }}
@@ -23,14 +25,15 @@
 
       <div class="form-field">
         <label for="password">Password</label>
-        <input
+        <p-password
           id="password"
-          type="password"
           formControlName="password"
           placeholder="Enter your password"
-          autocomplete="current-password"
-          required
-        />
+          [toggleMask]="true"
+          [feedback]="false"
+          styleClass="w-full"
+          inputStyleClass="w-full"
+        ></p-password>
         <small class="field-error" *ngIf="passwordControl?.invalid && passwordControl?.touched">
           {{ passwordControl?.hasError('required')
             ? 'Password is required.'
@@ -40,20 +43,24 @@
 
       <div class="login-card__status" *ngIf="auth.error()">
         <p class="flash" aria-live="assertive">
-          <i class="fa-solid fa-circle-exclamation"></i> {{ auth.error() }}
+          <i class="pi pi-exclamation-circle"></i> {{ auth.error() }}
         </p>
       </div>
 
-      <button type="submit" class="login-btn" [disabled]="form.invalid || auth.isLoading()">
-        <ng-container *ngIf="!auth.isLoading()">
-          <span>Login to Portal</span>
-          <i class="fa-solid fa-arrow-right"></i>
-        </ng-container>
-        <ng-container *ngIf="auth.isLoading()">
-          <i class="fa-solid fa-circle-notch fa-spin"></i>
-          <span>Authenticating...</span>
-        </ng-container>
-      </button>
+      <p-button 
+        type="submit" 
+        [disabled]="form.invalid || auth.isLoading()"
+        styleClass="w-full"
+      >
+        <ng-template pTemplate="content">
+          <div class="flex items-center justify-center gap-2">
+            <span *ngIf="!auth.isLoading()">Login to Portal</span>
+            <i *ngIf="!auth.isLoading()" class="pi pi-arrow-right"></i>
+            <i *ngIf="auth.isLoading()" class="pi pi-spin pi-spinner"></i>
+            <span *ngIf="auth.isLoading()">Authenticating...</span>
+          </div>
+        </ng-template>
+      </p-button>
     </form>
 
     <div class="login-footer">

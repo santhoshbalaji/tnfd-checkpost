@@ -1,4 +1,4 @@
-import rawConfig from '../../../appwrite.config.json';
+import rawConfig from '../../appwrite.config.json';
 
 interface RawAppwriteConfig {
   endpoint?: string;

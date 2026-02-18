@@ -3,11 +3,14 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AppwriteAuthService } from '../services/appwrite-auth.service';
+import { InputTextModule } from 'primeng/inputtext';
+import { ButtonModule } from 'primeng/button';
+import { PasswordModule } from 'primeng/password';
 
 @Component({
   standalone: true,
   selector: 'app-login-page',
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, InputTextModule, ButtonModule, PasswordModule],
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss']
 })
