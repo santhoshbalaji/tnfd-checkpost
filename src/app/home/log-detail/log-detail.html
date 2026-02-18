@@ -1,0 +1,294 @@
+<div class="log-detail-page">
+  @if (isLoading()) {
+    <div class="status-container loading">
+      <i class="pi pi-spin pi-spinner"></i>
+      <p>Loading log details...</p>
+    </div>
+  } @else if (dailyLog(); as log) {
+    <!-- Header/Banner -->
+    <section class="banner">
+      <div class="banner-header">
+        <div class="navigation-group">
+          <a [routerLink]="['/home/detail', checkpostId()]" class="btn-circular">
+            <i class="pi pi-arrow-left"></i>
+          </a>
+          <span class="location-badge">Log Entry Details</span>
+        </div>
+        
+        <div class="header-main">
+          <div class="title-section">
+            <h1>Log: {{ log.logDate | date:'fullDate' }}</h1>
+            <div class="stats-row">
+              <p class="subtitle">
+                <i class="pi pi-car"></i>
+                {{ log.vehiclesCheckedCount }} Vehicles Checked
+              </p>
+              <p class="subtitle">
+                <i class="pi pi-folder"></i>
+                {{ log.casesRegisteredCount }} Cases Registered
+              </p>
+              <p-button icon="pi pi-pencil" [text]="true" severity="secondary" (onClick)="openEditLogModal()" size="small" label="Edit Counts" />
+            </div>
+          </div>
+          <div class="actions">
+            <p-button label="Register New Case" icon="pi pi-plus" (onClick)="showCaseModal()" styleClass="btn-primary" />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Cases Table -->
+    <section class="records-section">
+      <div class="card records-card">
+        <div class="card-title">
+          <h2>Registered Cases</h2>
+          <p>Detailed records for investigations conducted on this date</p>
+        </div>
+
+        <p-table [value]="cases()" [paginator]="true" [rows]="10" styleClass="p-datatable-sm history-table">
+          <ng-template pTemplate="header">
+            <tr>
+              <th>Vehicle Reg #</th>
+              <th>Owner</th>
+              <th>Driver</th>
+              <th>Engine Number</th>
+              <th style="width: 8rem">Actions</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-case>
+            <tr>
+              <td><strong>{{ case.vehicleRegNumber }}</strong></td>
+              <td>
+                <div class="user-info">
+                  <span>{{ case.ownerName }}</span>
+                  <small>{{ case.ownerNumber }}</small>
+                </div>
+              </td>
+              <td>
+                <div class="user-info">
+                  <span>{{ case.driverName }}</span>
+                  <small>{{ case.driverNumber }}</small>
+                </div>
+              </td>
+              <td>{{ case.engineNumber }}</td>
+              <td>
+                <div class="flex gap-2">
+                  <p-button icon="pi pi-pencil" [text]="true" severity="info" (onClick)="editCase(case)" />
+                </div>
+              </td>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="emptymessage">
+            <tr>
+              <td colspan="5" class="empty-state">
+                <i class="pi pi-folder-open"></i>
+                <p>No cases registered for this log entry.</p>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+    </section>
+  }
+
+  <!-- Case Registration Modal -->
+  <p-dialog 
+    [header]="editingCaseId() ? 'Edit Case Investigation' : 'Register Case Investigation'" 
+    [(visible)]="isCaseModalVisible" 
+    [modal]="true" 
+    [draggable]="false" 
+    [resizable]="false"
+    styleClass="modern-dialog">
+    
+    <div class="log-form">
+      <form [formGroup]="caseForm">
+        <div class="dialog-intro">
+          <div class="dialog-title-block">
+            <h3 class="dialog-title">{{ editingCaseId() ? 'Update Case Details' : 'New Case Record' }}</h3>
+            <p class="dialog-subtitle">Add or update the vehicle and investigation details from {{ dailyLog()?.logDate | date:'mediumDate' }}.</p>
+          </div>
+          <div class="dialog-meta-block">
+            <span class="pill">TNFD Record</span>
+            <span class="meta-value">Case Entry</span>
+          </div>
+        </div>
+
+        <div class="dialog-tip">
+          <i class="pi pi-info-circle"></i>
+          <p>Detailed seized item reporting is mandatory for legal record keeping.</p>
+        </div>
+
+        <div class="dialog-stats">
+          <div class="stat-card">
+            <span class="stat-label">Shift Vehicles</span>
+            <strong>{{ dailyLog()?.vehiclesCheckedCount ?? 0 }}</strong>
+          </div>
+          <div class="stat-card">
+            <span class="stat-label">Shift Cases</span>
+            <strong>{{ dailyLog()?.casesRegisteredCount ?? 0 }}</strong>
+          </div>
+        </div>
+
+        <div class="form-grid">
+          <div class="form-field">
+            <label>Vehicle Reg Number</label>
+            <input pInputText formControlName="vehicleRegNumber" placeholder="TN 00 AA 0000" />
+          </div>
+          <div class="form-field">
+            <label>Engine Number</label>
+            <input pInputText formControlName="engineNumber" placeholder="Engine ID" />
+          </div>
+        </div>
+
+        <div class="section-divider">
+          <span class="divider-line"></span>
+          <h3>Section 1: Identity</h3>
+        </div>
+
+        <div class="form-grid">
+          <div class="form-field">
+            <label>Owner Name</label>
+            <input pInputText formControlName="ownerName" />
+          </div>
+          <div class="form-field">
+            <label>Owner Mobile</label>
+            <input pInputText formControlName="ownerNumber" />
+          </div>
+          <div class="form-field">
+            <label>Owner License #</label>
+            <input pInputText formControlName="ownerLicense" />
+          </div>
+          <div class="checkbox-field" style="margin-top: 2rem;">
+            <input type="checkbox" id="ownerIsDriver" formControlName="ownerIsDriver" />
+            <label for="ownerIsDriver">Owner is the Driver</label>
+          </div>
+        </div>
+
+        @if (!caseForm.get('ownerIsDriver')?.value) {
+          <div class="form-grid">
+            <div class="form-field">
+              <label>Driver Name</label>
+              <input pInputText formControlName="driverName" />
+            </div>
+            <div class="form-field">
+              <label>Driver Mobile</label>
+              <input pInputText formControlName="driverNumber" />
+            </div>
+            <div class="form-field">
+              <label>Driver License #</label>
+              <input pInputText formControlName="driverLicense" />
+            </div>
+          </div>
+        }
+
+        <div class="section-divider">
+          <span class="divider-line"></span>
+          <h3>Section 2: Seized Items</h3>
+        </div>
+
+        <div class="form-grid">
+          <div class="form-field">
+            <div class="checkbox-field">
+              <input type="checkbox" id="seizedMoney" formControlName="seizedMoney" />
+              <label for="seizedMoney">Money Seized</label>
+            </div>
+            @if (caseForm.get('seizedMoney')?.value) {
+              <input type="number" pInputText formControlName="moneyAmount" placeholder="Amount in ₹" />
+            }
+          </div>
+          <div class="form-field">
+            <div class="checkbox-field">
+              <input type="checkbox" id="seizedForestOffence" formControlName="seizedForestOffence" />
+              <label for="seizedForestOffence">Forest Offence</label>
+            </div>
+            @if (caseForm.get('seizedForestOffence')?.value) {
+              <input pInputText formControlName="forestOffenceDetails" placeholder="Describe forest offence" />
+            }
+          </div>
+          <div class="form-field">
+            <div class="checkbox-field">
+              <input type="checkbox" id="seizedPoliceOffence" formControlName="seizedPoliceOffence" />
+              <label for="seizedPoliceOffence">Police Offence</label>
+            </div>
+            @if (caseForm.get('seizedPoliceOffence')?.value) {
+              <input pInputText formControlName="policeOffenceDetails" placeholder="Describe police offence" />
+            }
+          </div>
+          <div class="form-field">
+            <div class="checkbox-field">
+              <input type="checkbox" id="seizedOtherOffence" formControlName="seizedOtherOffence" />
+              <label for="seizedOtherOffence">Other Offence</label>
+            </div>
+            @if (caseForm.get('seizedOtherOffence')?.value) {
+              <input pInputText formControlName="otherOffenceDetails" placeholder="Details of other case" />
+            }
+          </div>
+        </div>
+
+        <div class="section-divider">
+          <span class="divider-line"></span>
+          <h3>Section 3: Action & Reference</h3>
+        </div>
+
+        <div class="form-grid">
+          <div class="form-field">
+            <label>Case Number (ID)</label>
+            <input pInputText formControlName="caseNumber" placeholder="OR-00/2026" />
+          </div>
+          <div class="form-field">
+            <label>Hand Overed To (Name)</label>
+            <input pInputText formControlName="actionTakenName" placeholder="Recipient Name" />
+          </div>
+          <div class="form-field">
+            <label>Recipient Phone</label>
+            <input pInputText formControlName="actionTakenPhone" placeholder="Mobile Number" />
+          </div>
+        </div>
+
+        <div class="form-footer">
+          <p-button label="Cancel" (onClick)="isCaseModalVisible.set(false)" [text]="true" severity="secondary" />
+          <p-button [label]="editingCaseId() ? 'Update Case Record' : 'Save Case Record'" [loading]="isSavingCase()" icon="pi pi-check" (onClick)="saveCase()" [disabled]="caseForm.invalid" />
+        </div>
+      </form>
+    </div>
+  </p-dialog>
+</div>
+
+<!-- Edit Log Counts Dialog -->
+<p-dialog 
+  header="Update Shift Statistics" 
+  [(visible)]="isLogEditModalVisible" 
+  [modal]="true" 
+  [draggable]="false" 
+  [resizable]="false"
+  styleClass="modern-dialog">
+  
+  <div class="log-form">
+    <form [formGroup]="logEditForm">
+      <div class="dialog-intro">
+        <div class="dialog-title-block">
+          <h3 class="dialog-title">Shift Audit</h3>
+          <p class="dialog-subtitle">Correct vehicle and case counts recorded for this shift.</p>
+        </div>
+      </div>
+
+      <div class="form-grid">
+        <div class="form-field">
+          <label>Total Vehicles Checked</label>
+          <input type="number" pInputText formControlName="vehiclesCheckedCount" />
+        </div>
+        <div class="form-field">
+          <label>Total Cases Registered</label>
+          <input type="number" pInputText formControlName="casesRegisteredCount" />
+        </div>
+      </div>
+
+      <div class="form-footer">
+        <p-button label="Dismiss" (onClick)="isLogEditModalVisible.set(false)" [text]="true" severity="secondary" />
+        <p-button label="Update Counts" [loading]="isUpdatingLog()" icon="pi pi-refresh" (onClick)="saveLogEdit()" [disabled]="logEditForm.invalid" />
+      </div>
+    </form>
+  </div>
+</p-dialog>
+
+<p-toast />

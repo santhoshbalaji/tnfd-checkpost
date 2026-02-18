@@ -21,7 +21,7 @@ import { ToastModule } from 'primeng/toast';
   ],
   providers: [MessageService],
   templateUrl: './add-checkpost.html',
-  styleUrls: ['./add-checkpost.scss'],
+  styleUrls: ['./add-checkpost.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AddCheckpostComponent {

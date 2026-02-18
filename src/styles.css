@@ -1,0 +1,491 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import "primeicons/primeicons.css";
+@import "tailwindcss";
+@import "tailwindcss-primeui";
+
+/* CSS Variables for TNFD UI/UX Standards - Sync with tnfd-internal-apps */
+:root {
+  /* Apple-inspired colors */
+  --apple-bg: #FFFFFF;
+  --apple-bg-secondary: #F5F5F7;
+  --apple-bg-tertiary: #E5E5EA;
+  --apple-bg-quaternary: #F2F2F7;
+  --apple-text-primary: #1D1D1F;
+  --apple-text-secondary: #333333;
+  --apple-link: #0071E3;
+
+  /* Status colors */
+  --color-success: #34C759;
+  --color-error: #FF3B30;
+  --color-info: #3b82f6;
+  --color-warning: #FF9500;
+  --color-yellow: #FFD60A;
+  --color-purple: #AF52DE;
+
+  /* Primary color theme - Teal/Emerald */
+  --p-primary-color: #0d9488;
+  --p-primary-hover: #0a7a6b;
+  --p-primary-light: #ecfdf5;
+  
+  --teal-accent: #0071E3; /* Reusing variable name but mapped to blue for intent */
+  --content-border: #e5e7eb;
+  --shadow-soft: 0 4px 25px rgba(0, 0, 0, 0.08);
+  --border-radius-lg: 12px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background-color: var(--apple-bg-secondary);
+  color: var(--apple-text-primary);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+  letter-spacing: -0.025em;
+}
+
+p {
+  margin: 0;
+}
+
+/* Modern Dialog Styling - Global for TNFD Apps */
+.modern-dialog.p-dialog {
+  border-radius: var(--border-radius-lg) !important;
+  box-shadow: var(--shadow-soft) !important;
+  border: none !important;
+}
+
+.modern-dialog .p-dialog-header {
+  background: white !important;
+  border-radius: var(--border-radius-lg) var(--border-radius-lg) 0 0 !important;
+  padding: 1.5rem 2rem !important;
+  border: none !important;
+}
+
+.modern-dialog .p-dialog-content {
+  padding: 0 2rem 2rem 2rem !important;
+  background: white !important;
+}
+
+.modern-dialog .p-dialog-footer {
+  padding: 1rem 2rem 2rem 2rem !important;
+  background: white !important;
+  border-radius: 0 0 var(--border-radius-lg) var(--border-radius-lg) !important;
+  border: none !important;
+}
+
+/* Dialog Inner Components */
+.log-form, .case-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  max-width: 800px;
+}
+
+.dialog-intro {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.dialog-title-block {
+  flex: 1;
+}
+
+.dialog-title {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--apple-text-primary);
+  letter-spacing: -0.02em;
+}
+
+.dialog-subtitle {
+  margin: 0.25rem 0 0;
+  color: var(--apple-text-secondary);
+  line-height: 1.4;
+  font-size: 0.95rem;
+}
+
+.dialog-meta-block {
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.dialog-meta-block .pill {
+  background: rgba(13, 148, 136, 0.1);
+  color: #0d9488;
+  padding: 0.2rem 0.6rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  display: inline-block;
+}
+
+.dialog-meta-block .meta-value {
+  font-size: 0.85rem;
+  color: var(--apple-text-secondary);
+  font-weight: 500;
+}
+
+.dialog-tip {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: #f0fdfa; /* emerald-50 */
+  border-radius: 12px;
+  padding: 0.75rem 1rem;
+  border: 1px solid #ccfbf1; /* emerald-100 */
+}
+
+.dialog-tip i {
+  color: #0d9488;
+  font-size: 1.1rem;
+}
+
+.dialog-tip p {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #0f766e; /* emerald-700 */
+}
+
+.dialog-stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.stat-card {
+  background: var(--apple-bg-secondary);
+  border-radius: 12px;
+  padding: 1rem;
+  border: 1px solid var(--apple-bg-tertiary);
+}
+
+.stat-label {
+  display: block;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--apple-text-secondary);
+  margin-bottom: 0.25rem;
+  font-weight: 600;
+}
+
+.stat-card strong {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--apple-text-primary);
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.25rem;
+}
+
+.form-grid.full-width {
+  grid-template-columns: 1fr;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-field label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--apple-text-primary);
+}
+
+.form-field input, .form-field textarea {
+  padding: 0.75rem;
+  border-radius: 8px;
+  border: 1px solid var(--apple-bg-tertiary);
+  font-family: inherit;
+  font-size: 0.95rem;
+  transition: all 0.2s;
+}
+
+.form-field input:focus, .form-field textarea:focus {
+  outline: none;
+  border-color: #0d9488;
+  box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.1);
+}
+
+.form-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.form-note {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--apple-text-secondary);
+  font-size: 0.85rem;
+}
+
+.checkbox-field {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 0;
+}
+
+.checkbox-field input[type="checkbox"] {
+  width: 1.25rem;
+  height: 1.25rem;
+  accent-color: #0d9488;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.checkbox-field label {
+  font-weight: 500;
+  cursor: pointer;
+  color: var(--apple-text-primary);
+  font-size: 0.95rem;
+}
+
+.section-divider {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 1.5rem 0 0.5rem 0;
+}
+
+.section-divider .divider-line {
+  flex: 1;
+  height: 1px;
+  background: var(--apple-bg-tertiary);
+}
+
+.section-divider h3 {
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--apple-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+}
+
+/* Modern Dialog Styles - Global to apply to PrimeNG portalled components */
+.modern-dialog {
+  box-shadow: var(--shadow-soft);
+}
+
+.modern-dialog.p-dialog {
+  border-radius: var(--border-radius-lg);
+  overflow: hidden;
+  border: none;
+}
+
+.modern-dialog .p-dialog-header {
+  background: white;
+  padding: 1.5rem 2rem;
+  border-bottom: none;
+}
+
+.modern-dialog .p-dialog-content {
+  padding: 0 2rem 2rem 2rem;
+  background: white;
+}
+
+.modern-dialog .log-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  width: 100%;
+  max-width: 800px;
+}
+
+.modern-dialog .log-form .form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+.modern-dialog .log-form .form-grid.full-width {
+  grid-template-columns: 1fr !important;
+}
+
+.modern-dialog .log-form .dialog-intro {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.modern-dialog .log-form .dialog-title-block h3,
+.modern-dialog .log-form .dialog-intro h3 {
+  margin: 0;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--apple-text-primary);
+}
+
+.modern-dialog .log-form .dialog-subtitle,
+.modern-dialog .log-form .dialog-intro p {
+  margin: 0.25rem 0 0;
+  color: var(--apple-text-secondary);
+  line-height: 1.4;
+  font-size: 0.95rem;
+}
+
+.modern-dialog .log-form .dialog-meta-block,
+.modern-dialog .log-form .dialog-intro .dialog-meta {
+  text-align: right;
+}
+
+.modern-dialog .log-form .dialog-meta-block .pill,
+.modern-dialog .log-form .dialog-intro .dialog-meta {
+  background: var(--apple-bg-secondary);
+  color: var(--apple-text-primary);
+  padding: 0.4rem 1rem;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  display: inline-block;
+}
+
+.modern-dialog .log-form .dialog-stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  margin: 0.5rem 0;
+}
+
+.modern-dialog .log-form .stat-card {
+  background: var(--apple-bg-secondary);
+  border-radius: 12px;
+  padding: 1rem;
+  border: 1px solid var(--apple-bg-tertiary);
+}
+
+.modern-dialog .log-form .stat-label {
+  display: block;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--apple-text-secondary);
+  margin-bottom: 0.25rem;
+}
+
+.modern-dialog .log-form .stat-card strong {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--apple-text-primary);
+}
+
+.modern-dialog .log-form .dialog-tip {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: rgba(13, 148, 136, 0.08);
+  border-radius: 12px;
+  padding: 1rem;
+  color: var(--apple-text-secondary);
+  font-size: 0.9rem;
+}
+
+.modern-dialog .log-form .dialog-tip i {
+  font-size: 1.2rem;
+  color: #0d9488;
+}
+
+.modern-dialog .log-form .form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.modern-dialog .log-form .form-field label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--apple-text-secondary);
+}
+
+.modern-dialog .log-form .form-field input {
+  padding: 0.75rem;
+  border-radius: 8px;
+  border: 1px solid var(--apple-bg-tertiary);
+  font-family: inherit;
+  font-size: 1rem;
+}
+
+.modern-dialog .log-form .form-field input:focus {
+  outline: none;
+  border-color: #0d9488;
+  box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.15);
+}
+
+.modern-dialog .log-form .checkbox-field {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 0;
+}
+
+.modern-dialog .log-form .checkbox-field label {
+  font-weight: 500;
+  color: var(--apple-text-primary);
+  cursor: pointer;
+}
+
+.modern-dialog .log-form .section-divider {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 1rem 0;
+}
+
+.modern-dialog .log-form .section-divider .divider-line {
+  flex: 1;
+  height: 1px;
+  background: var(--apple-bg-tertiary);
+}
+
+.modern-dialog .log-form .section-divider h3 {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #0d9488;
+  letter-spacing: 0.05em;
+}
+
+.modern-dialog .log-form .form-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  padding-top: 1.5rem;
+  margin-top: 0.5rem;
+  border-top: 1px solid var(--apple-bg-tertiary);
+}
+
+.modern-dialog .p-button {
+  border-radius: 10px;
+}
+
+.modern-dialog .p-button.p-button-text {
+  color: var(--apple-text-secondary);
+}
+

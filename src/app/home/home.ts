@@ -8,7 +8,7 @@ import { ButtonModule } from 'primeng/button';
   selector: 'app-home',
   imports: [CommonModule, RouterOutlet, RouterLink, RouterLinkActive, ButtonModule],
   templateUrl: './home.html',
-  styleUrls: ['./home.scss'],
+  styleUrls: ['./home.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HomePage {

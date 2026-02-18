@@ -11,7 +11,7 @@ import { PasswordModule } from 'primeng/password';
   selector: 'app-login-page',
   imports: [CommonModule, ReactiveFormsModule, InputTextModule, ButtonModule, PasswordModule],
   templateUrl: './login.page.html',
-  styleUrls: ['./login.page.scss'],
+  styleUrls: ['./login.page.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LoginPage {

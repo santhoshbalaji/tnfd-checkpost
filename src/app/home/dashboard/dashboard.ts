@@ -18,7 +18,7 @@ interface CircleGroup {
   standalone: true,
   imports: [CommonModule, RouterLink, ButtonModule],
   templateUrl: './dashboard.html',
-  styleUrls: ['./dashboard.scss'],
+  styleUrls: ['./dashboard.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DashboardComponent implements OnInit {

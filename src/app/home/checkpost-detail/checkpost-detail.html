@@ -1,94 +1,164 @@
-<div class="detail-container">
+<div class="detail-page">
   @if (isLoading()) {
-    <div class="loader-container">
-      <i class="pi pi-spin pi-spinner text-4xl text-primary"></i>
-      <p>Loading checkpost details...</p>
+    <div class="status-container loading">
+      <i class="pi pi-spin pi-spinner"></i>
+      <p>Loading details...</p>
     </div>
   } @else if (error()) {
-    <div class="error-container card">
-      <i class="pi pi-exclamation-circle text-red-500 text-4xl"></i>
-      <p>{{ error() }}</p>
-      <p-button label="Back to Dashboard" icon="pi pi-arrow-left" [routerLink]="['/home']"></p-button>
+    <div class="status-container error">
+      <div class="error-box">
+        <i class="pi pi-exclamation-circle"></i>
+        <span>{{ error() }}</span>
+      </div>
     </div>
   } @else if (checkpost(); as cp) {
-    <!-- Header / Top Section with Details -->
-    <header class="detail-header card">
-      <div class="header-top">
-        <p-button icon="pi pi-arrow-left" [text]="true" [routerLink]="['/home']" label="Back"></p-button>
-        <div class="badge-group">
-          <span class="badge badge-primary">{{ cp.circle }} Circle</span>
-          <span class="badge badge-secondary">{{ cp.range }} Range</span>
+    <!-- Hero Banner -->
+    <section class="banner">
+      <div class="banner-header">
+        <div class="navigation-group">
+          <a routerLink="/home" class="btn-circular">
+            <i class="pi pi-arrow-left"></i>
+          </a>
+          <span class="location-badge">{{ cp.circle }} Circle</span>
         </div>
-      </div>
-
-      <div class="header-main">
-        <div class="title-section">
-          <h1>{{ cp.name }}</h1>
-          <div class="division-text">
-            <i class="pi pi-building"></i>
-            <span>{{ cp.division }} Division</span>
+        
+        <div class="header-main">
+          <div class="title-section">
+            <h1>{{ cp.name }}</h1>
+            <p class="subtitle">
+              <i class="pi pi-map-marker"></i>
+              {{ cp.division }} Division, {{ cp.range }} Range
+            </p>
           </div>
-        </div>
-        <div class="actions">
-          <p-button label="Edit Details" icon="pi pi-pencil" [outlined]="true"></p-button>
-        </div>
-      </div>
-
-      <div class="header-stats">
-        <div class="stat-item">
-          <div class="stat-icon"><i class="pi pi-phone"></i></div>
-          <div class="stat-content">
-            <span class="stat-label">Phone Number</span>
-            <span class="stat-value">{{ cp.phoneNumber }}</span>
-          </div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-icon"><i class="pi pi-map-marker"></i></div>
-          <div class="stat-content">
-            <span class="stat-label">Address</span>
-            <span class="stat-value">{{ cp.address }}</span>
-          </div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-icon"><i class="pi pi-globe"></i></div>
-          <div class="stat-content">
-            <span class="stat-label">Location</span>
-            <span class="stat-value">{{ cp.latitude.toFixed(6) }}, {{ cp.longitude.toFixed(6) }}</span>
+          <div class="actions">
+            <p-button label="Add Daily Log" icon="pi pi-plus" (onClick)="showLogModal()" styleClass="btn-primary" />
           </div>
         </div>
       </div>
-    </header>
-
-    <main class="detail-content">
-      <div class="grid-layout">
-        <section class="info-section card">
-          <div class="section-header">
-            <i class="pi pi-info-circle"></i>
-            <h2>Additional Information</h2>
-          </div>
-          <div class="section-body">
-            @if (cp.othersDetails) {
-              <p class="others-text">{{ cp.othersDetails }}</p>
-            } @else {
-              <p class="empty-text">No additional details provided.</p>
-            }
-          </div>
-        </section>
-
-        <section class="map-placeholder card">
-          <div class="section-header">
-            <i class="pi pi-map"></i>
-            <h2>Location Map</h2>
-          </div>
-          <div class="section-body map-box">
-             <div class="placeholder-content">
-               <i class="pi pi-map-marker text-4xl text-primary"></i>
-               <p>Map visualization will be integrated here.</p>
-               <span class="coords">{{ cp.latitude }}, {{ cp.longitude }}</span>
-             </div>
-          </div>
-        </section>
+      
+      <div class="info-grid">
+        <div class="info-item">
+          <span class="item-label">Contact Number</span>
+          <p class="item-value">{{ cp.phoneNumber }}</p>
+        </div>
+        <div class="info-item">
+          <span class="item-label">Address</span>
+          <p class="item-value">{{ cp.address }}</p>
+        </div>
+        <div class="info-item">
+          <span class="item-label">Registered Since</span>
+          <p class="item-value">{{ cp.$createdAt | date:'mediumDate' }}</p>
+        </div>
       </div>
-    </main>
+    </section>
+
+    <!-- Logs History -->
+    <section class="records-section">
+      <div class="card records-card">
+        <div class="card-title">
+          <h2>Operational History</h2>
+          <p>Historical data for vehicle checks and registrations</p>
+        </div>
+        
+        <p-table [value]="dailyLogs()" [paginator]="true" [rows]="10" styleClass="p-datatable-sm history-table">
+          <ng-template pTemplate="header">
+            <tr>
+              <th>Entry Date</th>
+              <th>Vehicles Checked</th>
+              <th>Cases Documented</th>
+              <th class="col-action">Details</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-log>
+            <tr>
+              <td class="cell-date">{{ log.logDate | date:'fullDate' }}</td>
+              <td>{{ log.vehiclesCheckedCount }}</td>
+              <td>
+                <span class="case-chip" [class.has-cases]="log.casesRegisteredCount > 0">
+                  {{ log.casesRegisteredCount }} Cases
+                </span>
+              </td>
+              <td class="col-action">
+                <p-button icon="pi pi-chevron-right" [text]="true" severity="secondary" [routerLink]="['log', log.$id]" />
+              </td>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="emptymessage">
+            <tr>
+              <td colspan="4" class="empty-state">
+                <i class="pi pi-inbox"></i>
+                <p>No activity logs found for this checkpost.</p>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+    </section>
+
+    <!-- Log Submission Dialog -->
+    <p-dialog 
+      header="Register Daily Entry" 
+      [(visible)]="isLogModalVisible" 
+      [modal]="true" 
+      [draggable]="false" 
+      [resizable]="false"
+      styleClass="modern-dialog">
+      
+      <div class="log-form">
+        <div class="dialog-intro">
+          <div class="dialog-title-block">
+            <h3 class="dialog-title">Daily Log for {{ cp.name }}</h3>
+            <p class="dialog-subtitle">Capture how many vehicles you inspected and how many needed follow-up.</p>
+          </div>
+          <div class="dialog-meta-block">
+            <span class="pill">{{ cp.circle }} Circle</span>
+            <span class="meta-value">{{ today | date:'fullDate' }}</span>
+          </div>
+        </div>
+
+        <div class="dialog-tip">
+          <i class="pi pi-info-circle"></i>
+          <p>Updating this every shift keeps case tracking reliable for the entire circle.</p>
+        </div>
+
+        <div class="dialog-stats">
+          <div class="stat-card">
+            <span class="stat-label">Vehicles Checked</span>
+            <strong>{{ logForm.get('vehiclesCheckedCount')?.value || 0 }}</strong>
+          </div>
+          <div class="stat-card">
+            <span class="stat-label">Cases Registered</span>
+            <strong>{{ logForm.get('casesRegisteredCount')?.value || 0 }}</strong>
+          </div>
+        </div>
+
+        <form [formGroup]="logForm">
+          <div class="form-grid">
+            <div class="form-field">
+              <label>Total Vehicles Checked</label>
+              <input type="number" pInputText formControlName="vehiclesCheckedCount" placeholder="0" />
+            </div>
+            <div class="form-field">
+              <label>Total Cases Registered</label>
+              <input type="number" pInputText formControlName="casesRegisteredCount" placeholder="0" />
+            </div>
+          </div>
+
+          <div class="form-grid full-width" style="margin-top: 1.5rem;">
+            <div class="form-note">
+              <i class="pi pi-check-circle"></i>
+              <p>Use whole numbers only. This number powers the safety score card for the range.</p>
+            </div>
+          </div>
+
+          <div class="form-footer">
+            <p-button label="Discard" (onClick)="isLogModalVisible.set(false)" [text]="true" severity="secondary" />
+            <p-button label="Finalize Entry" [loading]="isSavingLog()" icon="pi pi-check" (onClick)="saveLog()" [disabled]="logForm.invalid" />
+          </div>
+        </form>
+      </div>
+    </p-dialog>
   }
 </div>
+
+<p-toast />

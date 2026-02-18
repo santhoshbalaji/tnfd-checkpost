@@ -1,0 +1,176 @@
+:host {
+  --primary-emerald: #0d9488;
+  --surface-ground: var(--apple-bg-secondary);
+  --surface-card: #ffffff;
+  --text-main: var(--apple-text-primary);
+  --text-muted: var(--apple-text-secondary);
+  --border-radius: 16px;
+}
+
+.log-detail-page {
+  background-color: var(--surface-ground);
+  min-height: 100vh;
+  padding: 2rem;
+  font-family: 'Inter', sans-serif;
+}
+
+.status-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 60vh;
+  gap: 1rem;
+  color: var(--text-muted);
+}
+
+.status-container i {
+  font-size: 2rem;
+}
+
+.banner {
+  background: var(--surface-card);
+  border-radius: var(--border-radius);
+  padding: 2.5rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+  margin-bottom: 2rem;
+}
+
+.banner .banner-header {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.banner .banner-header .navigation-group {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.banner .banner-header .navigation-group .btn-circular {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--surface-ground);
+  color: var(--text-main);
+  text-decoration: none;
+  transition: transform 0.2s;
+}
+
+.banner .banner-header .navigation-group .btn-circular:hover {
+  transform: translateX(-4px);
+}
+
+.banner .banner-header .navigation-group .location-badge {
+  background: rgba(13, 148, 136, 0.1);
+  color: var(--primary-emerald);
+  font-weight: 600;
+  font-size: 0.75rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.banner .banner-header .header-main {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.banner .banner-header .header-main .title-section h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--text-main);
+  margin: 0 0 0.5rem 0;
+  letter-spacing: -0.02em;
+}
+
+.banner .banner-header .header-main .title-section .subtitle {
+  color: var(--text-muted);
+  font-size: 1.1rem;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.banner .banner-header .header-main .title-section .stats-row {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin-top: 0.5rem;
+}
+
+.banner .banner-header .header-main .title-section .stats-row .subtitle {
+  font-size: 0.95rem;
+}
+
+.records-section .records-card {
+  background: var(--surface-card);
+  border-radius: var(--border-radius);
+  padding: 2rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+.records-section .records-card .card-title h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 0 0 0.25rem 0;
+}
+
+.records-section .records-card .card-title p {
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.history-table .p-datatable-thead > tr > th {
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  font-weight: 600;
+  border-bottom: 2px solid var(--surface-ground);
+  padding: 1rem;
+}
+
+.history-table .p-datatable-tbody > tr:hover {
+  background: rgba(13, 148, 136, 0.02);
+}
+
+.history-table .p-datatable-tbody > tr > td {
+  padding: 1.25rem 1rem;
+  border-bottom: 1px solid var(--surface-ground);
+  color: var(--text-main);
+}
+
+.history-table .user-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.history-table .user-info span {
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+.history-table .user-info small {
+  color: var(--text-muted);
+  font-size: 0.8rem;
+}
+
+.history-table .empty-state {
+  text-align: center;
+  padding: 4rem !important;
+  color: var(--text-muted);
+}
+
+.history-table .empty-state i {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  opacity: 0.3;
+}

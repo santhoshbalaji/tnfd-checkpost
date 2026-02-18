@@ -52,7 +52,7 @@ You are an expert in TypeScript, Angular, and scalable web application developme
 ## UI/UX Standards
 
 - Design MUST follow the TNFD internal app standards (Apple-inspired aesthetic).
-- Use the predefined CSS variables in `styles.scss` for colors, spacing, and shadows.
+- Use the predefined CSS variables in `styles.css` for colors, spacing, and shadows.
 - Primary color theme: Teal/Emerald (`--p-primary-color: #0d9488`).
 - Font: Use **Inter** with specific weights (400, 500, 600, 700).
 - Components should have rounded corners (`--border-radius-lg: 12px` or 16px for cards).

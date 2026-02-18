@@ -4,6 +4,7 @@ import { HomePage } from './home/home';
 import { AddCheckpostComponent } from './add-checkpost/add-checkpost';
 import { DashboardComponent } from './home/dashboard/dashboard';
 import { CheckpostDetailComponent } from './home/checkpost-detail/checkpost-detail';
+import { LogDetailComponent } from './home/log-detail/log-detail';
 
 export const routes: Routes = [
 	{
@@ -25,6 +26,10 @@ export const routes: Routes = [
       {
         path: 'detail/:id',
         component: CheckpostDetailComponent
+      },
+      {
+        path: 'detail/:id/log/:logId',
+        component: LogDetailComponent
       }
     ]
   },

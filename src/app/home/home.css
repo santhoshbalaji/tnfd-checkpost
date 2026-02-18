@@ -7,20 +7,20 @@
 }
 
 .sidebar {
-  width: 288px; // w-72
+  width: 288px; 
   background-color: var(--apple-bg);
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); // shadow-xl
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); 
   display: flex;
   flex-direction: column;
   height: 100%;
   border-right: 1px solid var(--content-border);
-  padding: 0; // Remove previous padding to allow header background to fill
+  padding: 0; 
 }
 
 .sidebar__header {
-  padding: 1rem;
-  border-bottom: 1px solid var(--content-border);
-  background: linear-gradient(to right, #005ea2, #004d87); // from primary-500 to primary-600
+  padding: 1.5rem 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  background: linear-gradient(135deg, #0d9488, #0f766e); 
 }
 
 .logo-container {
@@ -49,7 +49,7 @@
 
 .logo-text-group {
   .logo-title {
-    font-size: 1.125rem; // text-lg
+    font-size: 1.125rem; 
     font-weight: 700;
     color: white;
     letter-spacing: -0.025em;
@@ -59,7 +59,7 @@
 
   .logo-subtitle {
     color: rgba(255, 255, 255, 0.8);
-    font-size: 0.75rem; // text-xs
+    font-size: 0.75rem; 
     font-weight: 500;
     margin: 0;
   }
@@ -81,7 +81,7 @@
   display: flex;
   align-items: center;
   padding: 0.75rem 1rem;
-  color: #374151; // text-surface-700
+  color: #374151; 
   border-radius: 8px;
   text-decoration: none;
   font-weight: 500;
@@ -96,8 +96,8 @@
   }
 
   &:hover {
-    background-color: #f3f4f6; // hover:bg-surface-100
-    color: #111827; // hover:text-surface-900
+    background-color: #f3f4f6; 
+    color: #111827; 
 
     i {
       transform: scale(1.1);
@@ -127,8 +127,8 @@
 }
 
 .user-welcome {
-  font-size: 0.75rem; // text-xs
-  color: #4b5563; // text-surface-600
+  font-size: 0.75rem; 
+  color: #4b5563; 
   padding: 0 0.5rem;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -136,11 +136,11 @@
 }
 
 .logout-btn {
-  background-color: #dc2626; // bg-red-600
+  background-color: #dc2626; 
   color: white;
   padding: 0.375rem 0.75rem;
   border-radius: 8px;
-  font-size: 0.75rem; // text-xs
+  font-size: 0.75rem; 
   font-weight: 500;
   border: none;
   cursor: pointer;
@@ -150,7 +150,7 @@
   transition: background-color 0.2s;
 
   &:hover:not(:disabled) {
-    background-color: #b91c1c; // hover:bg-red-700
+    background-color: #b91c1c; 
   }
 
   &:disabled {
@@ -165,7 +165,7 @@
 
 .content {
   flex: 1;
-  padding: 0; // Use internal body for padding
+  padding: 0; 
   overflow-y: auto;
   background-color: var(--apple-bg-secondary);
 }
