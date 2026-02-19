@@ -39,7 +39,7 @@ export class CheckpostService {
     this.databases = new Databases(client);
   }
 
-  async getCheckposts(limit: number = 100) {
+  async getCheckposts(limit: number = 1000) {
     try {
       return await this.databases.listDocuments(
         this.DATABASE_ID,
@@ -163,7 +163,7 @@ export class CheckpostService {
     }
   }
 
-  async getDailyLogs(checkpostId: string, limit = 100) {
+  async getDailyLogs(checkpostId: string, limit = 1000) {
     try {
       return await this.databases.listDocuments(
         this.DATABASE_ID,
@@ -193,7 +193,7 @@ export class CheckpostService {
     }
   }
 
-  async getSeizedItems(limit: number = 100) {
+  async getSeizedItems(limit: number = 1000) {
     try {
       return await this.databases.listDocuments(
         this.DATABASE_ID,
