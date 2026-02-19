@@ -95,6 +95,15 @@ export class AppwriteAuthService {
     }
   }
 
+  async changePassword(password: string, oldPassword?: string): Promise<void> {
+    const updatedUser = await this.account.updatePassword({
+      password,
+      oldPassword
+    });
+    this.user.set(updatedUser);
+    this.sessionActive.set(true);
+  }
+
   private normalizeError(error: unknown): string {
     if (error instanceof Error) {
       return error.message;
