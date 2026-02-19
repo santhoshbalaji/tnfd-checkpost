@@ -1,0 +1,158 @@
+<div class="user-page">
+  <header class="user-page__header">
+    <div>
+      <p class="eyebrow">User control</p>
+      <h1>Users & Permissions</h1>
+      <p class="subtitle">Create user accounts and scope them to the right circles so dashboards stay relevant.</p>
+    </div>
+    <p-button label="Refresh users" icon="pi pi-refresh" (click)="loadUsers()" [loading]="isLoading()"></p-button>
+  </header>
+
+  <div class="user-page__grid">
+    <section class="panel form-panel card">
+      <div class="panel-title">
+        <h2>
+          @if (editingUser()) {
+            Manage {{ editingUser()?.name || editingUser()?.email }}
+          } @else {
+            Create new user
+          }
+        </h2>
+        <p class="subtitle">Assign circle labels to gate checkpost data for each user.</p>
+      </div>
+
+      <form [formGroup]="userForm" class="user-form" (ngSubmit)="handleSave()">
+        <div class="form-field">
+          <label for="user-name">Full name</label>
+          <input id="user-name" type="text" formControlName="name" placeholder="Forest Supervisor" autocomplete="name">
+        </div>
+        <div class="form-field">
+          <label for="user-email">Email address</label>
+          <input id="user-email" type="email" formControlName="email" placeholder="user@example.com" autocomplete="email">
+        </div>
+        <div class="form-field">
+          <label for="user-password">Password</label>
+          <input id="user-password" type="password" formControlName="password" placeholder="********" autocomplete="new-password">
+        </div>
+        <div class="form-field">
+          <label for="user-confirm-password">Confirm password</label>
+          <input id="user-confirm-password" type="password" formControlName="confirmPassword" placeholder="Re-type password" autocomplete="new-password">
+        </div>
+
+        <div class="circle-selection">
+          <span class="label">Authorized circles</span>
+          <p class="helper">Only selected circles' checkposts will surface for this account.</p>
+          <div class="circle-options">
+            @if (circleOptions().length === 0) {
+              <span class="helper">Add checkposts first to expose circle tags.</span>
+            } @else {
+              @for (circle of circleOptions(); track circle) {
+                <button
+                  type="button"
+                  class="circle-pill"
+                  [class.selected]="selectedCircles().includes(circle)"
+                  (click)="toggleCircle(circle)">
+                  <span>{{ circle }}</span>
+                  <i class="pi pi-check" [class.visible]="selectedCircles().includes(circle)"></i>
+                </button>
+              }
+            }
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <p-button
+            [label]="editingUser() ? 'Save changes' : 'Create user'"
+            type="submit"
+            [loading]="isSaving()"
+            [disabled]="isSaving()"></p-button>
+          <button type="button" class="ghost-link" (click)="resetForm()" [disabled]="isSaving()">Reset form</button>
+        </div>
+      </form>
+    </section>
+
+    <section class="panel users-panel card">
+      <div class="panel-title">
+        <h2>Access audit</h2>
+        <p class="subtitle">Dashboards and lists respect the circles configured here.</p>
+      </div>
+
+      @if (feedback()) {
+        <div
+          class="feedback"
+          [class.error]="feedback()?.type === 'error'"
+          [class.success]="feedback()?.type === 'success'"
+          role="status"
+          aria-live="polite">
+          <span>{{ feedback()?.message }}</span>
+          <button type="button" aria-label="Dismiss message" (click)="dismissFeedback()">✕</button>
+        </div>
+      }
+
+      @if (isLoading()) {
+        <div class="loader">
+          <i class="pi pi-spin pi-spinner"></i>
+          <p>Loading user list…</p>
+        </div>
+      } @else {
+        @if (!hasUsers()) {
+          <div class="empty-state">
+            <i class="pi pi-users"></i>
+            <p>No configured users yet.</p>
+            <p>Use the form on the left to add new team members.</p>
+          </div>
+        } @else {
+          <div class="table-wrapper">
+            <table class="user-table" aria-label="User permissions table">
+              <thead>
+                <tr>
+                  <th scope="col">Name</th>
+                  <th scope="col">Email</th>
+                  <th scope="col">Circles</th>
+                  <th scope="col">Registered</th>
+                  <th scope="col">Last seen</th>
+                  <th scope="col">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (user of users(); track user.$id) {
+                  <tr>
+                    <td>
+                      <strong>{{ user.name || 'Unnamed user' }}</strong>
+                    </td>
+                    <td>
+                      <span>{{ user.email }}</span>
+                    </td>
+                    <td>
+                      @if (user.labels.length === 0) {
+                        <span class="label-pill">No circle assigned</span>
+                      } @else {
+                        <div class="label-row">
+                          @for (label of user.labels; track label) {
+                            <span class="label-pill">{{ label }}</span>
+                          }
+                        </div>
+                      }
+                    </td>
+                    <td>
+                      {{ formatTimestamp(user.registration) }}
+                    </td>
+                    <td>
+                      {{ formatTimestamp(user.accessedAt) }}
+                    </td>
+                    <td>
+                      <button type="button" class="link-btn" (click)="startEditing(user)">
+                        <i class="pi pi-pencil"></i>
+                        <span>Edit</span>
+                      </button>
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        }
+      }
+    </section>
+  </div>
+</div>

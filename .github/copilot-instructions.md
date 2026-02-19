@@ -59,3 +59,5 @@ You are an expert in TypeScript, Angular, and scalable web application developme
 - Use Font Awesome 6.4.0+ for all iconography.
 
 ## Services
+
+- Use tnfd-internal-apps strictly as a reference repository when the user explicitly requests it; do not modify any files inside that folder.

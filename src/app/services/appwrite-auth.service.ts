@@ -15,6 +15,11 @@ export class AppwriteAuthService {
 
   readonly userName = computed(() => this.user()?.name ?? 'User');
   readonly userEmail = computed(() => this.user()?.email ?? '');
+  readonly isAdmin = computed(() =>
+    (this.user()?.labels ?? []).some(label =>
+      typeof label === 'string' && label.trim().toLowerCase() === 'admin'
+    )
+  );
 
   constructor() {
     const client = new Client()

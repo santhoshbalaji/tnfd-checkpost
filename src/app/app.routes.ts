@@ -7,6 +7,7 @@ import { CheckpostsPage } from './home/checkposts/checkposts';
 import { CheckpostDetailComponent } from './home/checkpost-detail/checkpost-detail';
 import { LogDetailComponent } from './home/log-detail/log-detail';
 import { SeizedItemsPage } from './home/seized-items/seized-items';
+import { UserStatisticsPage } from './home/user-statistics/user-statistics';
 
 export const routes: Routes = [
 	{
@@ -32,6 +33,10 @@ export const routes: Routes = [
       {
         path: 'add',
         component: AddCheckpostComponent
+      },
+      {
+        path: 'users',
+        component: UserStatisticsPage
       },
       {
         path: 'detail/:id',

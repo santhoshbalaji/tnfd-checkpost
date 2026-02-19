@@ -1,4 +1,5 @@
 import { Injectable, inject, signal, computed } from '@angular/core';
+import { AppwriteAuthService } from './appwrite-auth.service';
 import { CheckpostData, CheckpostService } from './checkpost.service';
 
 interface CheckpostWithId extends CheckpostData {
@@ -20,15 +21,33 @@ interface CheckpostTotals {
 })
 export class CheckpostListStore {
   private readonly checkpostService = inject(CheckpostService);
+  private readonly auth = inject(AppwriteAuthService);
 
   readonly checkposts = signal<CheckpostWithId[]>([]);
   readonly isLoading = signal(false);
   readonly hasLoaded = signal(false);
   private loadPromise: Promise<void> | null = null;
 
+  readonly accessibleCheckposts = computed(() => {
+    const labels = this.auth.user()?.labels ?? [];
+    const normalizedLabels = new Set<string>();
+    labels.forEach(label => {
+      const trimmed = label?.trim();
+      if (trimmed) {
+        normalizedLabels.add(trimmed);
+      }
+    });
+
+    if (!normalizedLabels.size || normalizedLabels.has('admin')) {
+      return this.checkposts();
+    }
+
+    return this.checkposts().filter(cp => normalizedLabels.has((cp.circle ?? '').trim()));
+  });
+
   readonly circles = computed(() => {
     const groups: Record<string, CheckpostWithId[]> = {};
-    this.checkposts().forEach(cp => {
+    this.accessibleCheckposts().forEach(cp => {
       const circle = cp.circle || 'Unassigned';
       if (!groups[circle]) {
         groups[circle] = [];
@@ -44,7 +63,7 @@ export class CheckpostListStore {
       .sort((a, b) => a.name.localeCompare(b.name));
   });
 
-  readonly totalCheckposts = computed(() => this.checkposts().length);
+  readonly totalCheckposts = computed(() => this.accessibleCheckposts().length);
   readonly totals = signal<Record<string, CheckpostTotals>>({});
 
   async loadCheckposts() {

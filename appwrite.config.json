@@ -2,6 +2,7 @@
     "projectId": "checkpost",
     "projectName": "Checkpost",
     "endpoint": "https://sffcc.tnforest.in/v1",
+    "userManagementFunctionId": "manage-users",
     "settings": {
         "services": {
             "account": true,
@@ -452,6 +453,55 @@
                 }
             ],
             "indexes": []
+        }
+    ],
+    "functions": [
+        {
+            "$id": "manage-users",
+            "name": "Manage Users",
+            "enabled": true,
+            "execute": [
+                "users",
+                "any"
+            ],
+            "runtime": "node-18.0",
+            "path": "functions/manage-users",
+            "entrypoint": "src/index.js",
+            "commands": "npm install",
+            "timeout": 30,
+            "logging": true,
+            "specification": "s-8vcpu-8gb",
+            "events": [],
+            "scopes": [
+                "sessions.write",
+                "users.read",
+                "users.write",
+                "teams.read",
+                "teams.write",
+                "databases.read",
+                "databases.write",
+                "tables.read",
+                "collections.read",
+                "tables.write",
+                "collections.write",
+                "columns.read",
+                "attributes.read",
+                "columns.write",
+                "attributes.write",
+                "indexes.read",
+                "indexes.write",
+                "rows.read",
+                "documents.read",
+                "rows.write",
+                "documents.write",
+                "locale.read",
+                "avatars.read",
+                "health.read",
+                "migrations.read",
+                "migrations.write",
+                "tokens.read",
+                "tokens.write"
+            ]
         }
     ],
     "buckets": [],
