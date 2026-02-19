@@ -72,7 +72,7 @@
 }
 
 .banner .location-badge {
-  background: rgba(13, 148, 136, 0.1);
+  background: rgba(var(--p-primary-rgb), 0.1);
   color: var(--primary-emerald);
   font-weight: 600;
   font-size: 0.75rem;
@@ -163,7 +163,7 @@
 }
 
 .history-table .p-datatable-tbody > tr:hover {
-  background: rgba(13, 148, 136, 0.02);
+  background: rgba(var(--p-primary-rgb), 0.02);
 }
 
 .history-table .p-datatable-tbody > tr > td {
@@ -241,7 +241,7 @@
 .dialog-meta-block .pill {
   padding: 0.25rem 0.75rem;
   border-radius: 999px;
-  background: rgba(13, 148, 136, 0.12);
+  background: rgba(var(--p-primary-rgb), 0.12);
   color: var(--primary-emerald);
   font-size: 0.8rem;
   font-weight: 600;
@@ -258,13 +258,13 @@
   align-items: center;
   padding: 0.75rem 1rem;
   border-radius: 12px;
-  background: rgba(15, 118, 110, 0.1);
+  background: rgba(var(--p-primary-rgb), 0.1);
   color: var(--text-main);
 }
 
 .dialog-tip i {
   font-size: 1.25rem;
-  color: #0d9488;
+  color: var(--p-primary-color);
 }
 
 .dialog-stats {
@@ -362,6 +362,6 @@
 }
 
 .form-note i {
-  color: #0d9488;
+  color: var(--p-primary-color);
 }
 

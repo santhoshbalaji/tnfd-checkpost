@@ -36,7 +36,7 @@
 .circle-icon {
   width: 44px;
   height: 44px;
-  background: rgba(13, 148, 136, 0.1);
+  background: rgba(var(--p-primary-rgb), 0.1);
   border-radius: 12px;
   display: flex;
   align-items: center;
@@ -80,7 +80,7 @@
 .checkpost-card:hover {
   transform: translateY(-4px);
   box-shadow: 0 12px 20px -5px rgba(0, 0, 0, 0.1);
-  border-color: rgba(13, 148, 136, 0.3);
+  border-color: rgba(var(--p-primary-rgb), 0.3);
 }
 
 .cp-card-header {
@@ -151,7 +151,7 @@
 
 .emerald-spinner {
   font-size: 3rem;
-  color: #0d9488;
+  color: var(--p-primary-color);
 }
 
 .empty-state {

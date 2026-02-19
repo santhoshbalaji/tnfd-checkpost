@@ -78,7 +78,7 @@
 
     &:focus {
       border-color: var(--p-primary-color);
-      box-shadow: 0 0 0 2px rgba(13, 148, 136, 0.1);
+      box-shadow: 0 0 0 2px rgba(var(--p-primary-rgb), 0.1);
     }
   }
 

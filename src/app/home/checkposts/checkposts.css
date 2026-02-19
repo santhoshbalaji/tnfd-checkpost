@@ -11,7 +11,7 @@
 
 .eyebrow {
   font-size: 0.75rem;
-  color: #0d9488;
+  color: var(--p-primary-color);
   letter-spacing: 0.2em;
   text-transform: uppercase;
   margin-bottom: 0.25rem;
