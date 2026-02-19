@@ -79,6 +79,20 @@ export class CheckpostService {
     }
   }
 
+  async updateCheckpost(id: string, data: Partial<CheckpostData>) {
+    try {
+      return await this.databases.updateDocument(
+        this.DATABASE_ID,
+        this.COLLECTION_ID,
+        id,
+        data
+      );
+    } catch (error) {
+      console.error('Error updating checkpost:', error);
+      throw error;
+    }
+  }
+
   // Daily Logs & Cases
   async createDailyLog(data: any) {
     try {
@@ -149,14 +163,15 @@ export class CheckpostService {
     }
   }
 
-  async getDailyLogs(checkpostId: string) {
+  async getDailyLogs(checkpostId: string, limit = 100) {
     try {
       return await this.databases.listDocuments(
         this.DATABASE_ID,
         this.DAILY_LOGS_COLLECTION,
         [
           Query.equal('checkpostId', checkpostId),
-          Query.orderDesc('logDate')
+          Query.orderDesc('logDate'),
+          Query.limit(limit)
         ]
       );
     } catch (error) {
@@ -201,6 +216,33 @@ export class CheckpostService {
       );
     } catch (error) {
       console.error('Error creating seized item:', error);
+      throw error;
+    }
+  }
+
+  async updateSeizedItem(id: string, data: Partial<SeizedItemData>) {
+    try {
+      return await this.databases.updateDocument(
+        this.DATABASE_ID,
+        this.SEIZED_ITEMS_COLLECTION,
+        id,
+        data
+      );
+    } catch (error) {
+      console.error('Error updating seized item:', error);
+      throw error;
+    }
+  }
+
+  async deleteSeizedItem(id: string) {
+    try {
+      return await this.databases.deleteDocument(
+        this.DATABASE_ID,
+        this.SEIZED_ITEMS_COLLECTION,
+        id
+      );
+    } catch (error) {
+      console.error('Error deleting seized item:', error);
       throw error;
     }
   }

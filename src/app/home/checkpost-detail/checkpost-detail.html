@@ -32,6 +32,12 @@
           </div>
           <div class="actions">
             <p-button label="Add Daily Log" icon="pi pi-plus" (onClick)="showLogModal()" styleClass="btn-primary" />
+            <p-button
+              label="Edit Details"
+              icon="pi pi-pencil"
+              styleClass="p-button-outlined"
+              (onClick)="showEditDialog()"
+            ></p-button>
           </div>
         </div>
       </div>
@@ -153,6 +159,59 @@
         </form>
       </div>
     </p-dialog>
+
+      <p-dialog
+        header="Edit Checkpost"
+        [(visible)]="isEditModalVisible"
+        [modal]="true"
+        [draggable]="false"
+        [resizable]="false"
+        styleClass="modern-dialog"
+        [style]="{ width: '620px' }"
+      >
+        <form [formGroup]="editForm" class="edit-details-form">
+          <div class="form-grid">
+            <div class="form-field">
+              <label>Checkpost Name</label>
+              <input pInputText formControlName="name" />
+            </div>
+            <div class="form-field">
+              <label>Circle</label>
+              <input pInputText formControlName="circle" />
+            </div>
+            <div class="form-field">
+              <label>Division</label>
+              <input pInputText formControlName="division" />
+            </div>
+            <div class="form-field">
+              <label>Range</label>
+              <input pInputText formControlName="range" />
+            </div>
+            <div class="form-field">
+              <label>Contact Number</label>
+              <input pInputText formControlName="phoneNumber" />
+            </div>
+            <div class="form-field full-width">
+              <label>Address</label>
+              <textarea class="p-inputtext" formControlName="address" rows="3"></textarea>
+            </div>
+            <div class="form-field full-width">
+              <label>Additional Notes</label>
+              <textarea class="p-inputtext" formControlName="othersDetails" rows="3"></textarea>
+            </div>
+          </div>
+          <div class="form-footer">
+            <p-button label="Cancel" (onClick)="isEditModalVisible.set(false)" [text]="true" severity="secondary"></p-button>
+            <p-button
+              label="Save"
+              styleClass="btn-primary"
+              [loading]="isSavingEdit()"
+              (onClick)="saveDetails()"
+              [disabled]="editForm.invalid"
+            ></p-button>
+          </div>
+        </form>
+      </p-dialog>
   }
 </div>
 

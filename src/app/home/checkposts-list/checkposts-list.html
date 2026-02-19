@@ -25,28 +25,26 @@
               <div class="checkpost-card" [routerLink]="['/home/detail', cp.$id]">
                 <div class="cp-card-header">
                   <h3>{{ cp.name }}</h3>
-                  <span class="range-badge">{{ cp.range }}</span>
                 </div>
 
                 <div class="cp-card-body">
                   <div class="info-row">
-                    <i class="pi pi-building"></i>
+                    <span class="label">Range</span>
+                    <span>{{ cp.range }}</span>
+                  </div>
+                  <div class="info-row">
+                    <span class="label">Division</span>
                     <span>{{ cp.division }}</span>
                   </div>
-                  <div class="info-row">
-                    <i class="pi pi-phone"></i>
-                    <span>{{ cp.phoneNumber }}</span>
-                  </div>
-                  <div class="info-row">
-                    <i class="pi pi-map-marker"></i>
-                    <span class="address-text">{{ cp.address }}</span>
-                  </div>
                 </div>
-
-                <div class="cp-card-footer">
-                  <div class="coordinates">
-                    <i class="pi pi-globe"></i>
-                    <span>{{ cp.latitude.toFixed(4) }}, {{ cp.longitude.toFixed(4) }}</span>
+                <div class="stats-row">
+                  <div class="stat">
+                    <span class="label">Vehicles checked</span>
+                    <strong>{{ store.totals()[cp.$id]?.vehicles ?? 0 }}</strong>
+                  </div>
+                  <div class="stat">
+                    <span class="label">Cases registered</span>
+                    <strong>{{ store.totals()[cp.$id]?.cases ?? 0 }}</strong>
                   </div>
                 </div>
               </div>

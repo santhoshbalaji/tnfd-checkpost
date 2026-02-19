@@ -11,6 +11,7 @@ export class AppwriteAuthService {
   readonly error = signal<string | null>(null);
   readonly sessionActive = signal(false);
   readonly user = signal<Models.User<Models.Preferences> | null>(null);
+  readonly isReady = signal(false);
 
   readonly userName = computed(() => this.user()?.name ?? 'User');
   readonly userEmail = computed(() => this.user()?.email ?? '');
@@ -32,6 +33,8 @@ export class AppwriteAuthService {
     } catch {
       this.user.set(null);
       this.sessionActive.set(false);
+    } finally {
+      this.isReady.set(true);
     }
   }
 

@@ -35,12 +35,30 @@
           <tr>
             <th>Name</th>
             <th>Description</th>
+            <th class="actions-column">Actions</th>
           </tr>
         </ng-template>
         <ng-template pTemplate="body" let-item>
           <tr>
             <td>{{ item.name }}</td>
             <td>{{ item.description || '—' }}</td>
+            <td class="actions-cell">
+              <p-button
+                icon="pi pi-pencil"
+                label="Edit"
+                styleClass="actions-btn p-button-text"
+                (onClick)="startEdit(item)"
+                [disabled]="isLoading()"
+              ></p-button>
+              <p-button
+                icon="pi pi-trash"
+                label="Delete"
+                styleClass="actions-btn btn-danger p-button-text"
+                (onClick)="deleteItem(item)"
+                [loading]="deletingItemId() === item.$id"
+                [disabled]="deletingItemId() !== null && deletingItemId() !== item.$id"
+              ></p-button>
+            </td>
           </tr>
         </ng-template>
         <ng-template pTemplate="emptymessage">
@@ -88,4 +106,41 @@
   </section>
 
   <p-toast />
+
+  <p-dialog
+    header="Edit seized item"
+    [visible]="editDialogVisible()"
+    [modal]="true"
+    [dismissableMask]="true"
+    [closable]="true"
+    (onHide)="handleEditDialogHide()"
+    [style]="{ width: '320px' }"
+  >
+    <form [formGroup]="editForm" (ngSubmit)="saveEdit()" class="dialog-form">
+      <div class="field-group">
+        <label>Name</label>
+        <input pInputText formControlName="name" />
+      </div>
+      <div class="field-group">
+        <label>Description</label>
+        <textarea class="p-inputtext" formControlName="description" rows="3"></textarea>
+      </div>
+      <div class="dialog-actions">
+        <p-button
+          label="Cancel"
+          type="button"
+          class="p-button-text"
+          (onClick)="hideEditDialog()"
+          [disabled]="isEditing()"
+        ></p-button>
+        <p-button
+          label="Save"
+          type="submit"
+          styleClass="btn-primary"
+          [loading]="isEditing()"
+          [disabled]="editForm.invalid"
+        ></p-button>
+      </div>
+    </form>
+  </p-dialog>
 </div>

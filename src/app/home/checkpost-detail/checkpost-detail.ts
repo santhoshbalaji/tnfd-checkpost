@@ -47,6 +47,18 @@ export class CheckpostDetailComponent implements OnInit {
   readonly dailyLogs = signal<any[]>([]);
   readonly isLogModalVisible = signal(false);
   readonly isSavingLog = signal(false);
+  readonly isEditModalVisible = signal(false);
+  readonly isSavingEdit = signal(false);
+
+  editForm: FormGroup = this.fb.group({
+    name: ['', Validators.required],
+    circle: ['', Validators.required],
+    division: ['', Validators.required],
+    range: ['', Validators.required],
+    phoneNumber: ['', Validators.required],
+    address: ['', Validators.required],
+    othersDetails: ['']
+  });
 
   logForm: FormGroup = this.fb.group({
     vehiclesCheckedCount: [0, [Validators.required, Validators.min(0)]],
@@ -122,6 +134,44 @@ export class CheckpostDetailComponent implements OnInit {
       this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to save log' });
     } finally {
       this.isSavingLog.set(false);
+    }
+  }
+
+  showEditDialog() {
+    const cp = this.checkpost();
+    if (!cp) return;
+
+    this.editForm.setValue({
+      name: cp.name,
+      circle: cp.circle,
+      division: cp.division,
+      range: cp.range,
+      phoneNumber: cp.phoneNumber,
+      address: cp.address,
+      othersDetails: cp.othersDetails || ''
+    });
+    this.isEditModalVisible.set(true);
+  }
+
+  async saveDetails() {
+    if (this.editForm.invalid) return;
+    const cp = this.checkpost();
+    if (!cp) return;
+
+    this.isSavingEdit.set(true);
+    try {
+      const updated = await this.checkpostService.updateCheckpost(cp.$id, this.editForm.value);
+      this.checkpost.set({
+        ...cp,
+        ...updated
+      } as unknown as CheckpostWithId);
+      this.messageService.add({ severity: 'success', summary: 'Updated', detail: 'Checkpost details saved' });
+      this.isEditModalVisible.set(false);
+    } catch (error) {
+      console.error('Failed to update checkpost:', error);
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Unable to save changes at this time' });
+    } finally {
+      this.isSavingEdit.set(false);
     }
   }
 

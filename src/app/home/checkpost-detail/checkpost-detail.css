@@ -339,6 +339,19 @@
   justify-content: flex-end;
   gap: 0.75rem;
 }
+.edit-details-form .form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 0.85rem;
+}
+.edit-details-form .form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+.edit-details-form .form-field.full-width {
+  grid-column: 1 / -1;
+}
 
 .form-note {
   display: flex;

@@ -84,10 +84,7 @@
 }
 
 .cp-card-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 1rem;
+  margin-bottom: 0.25rem;
 }
 
 .cp-card-header h3 {
@@ -98,61 +95,48 @@
   line-height: 1.4;
 }
 
-.range-badge {
-  background: #f1f5f9;
-  color: #475569;
-  padding: 0.25rem 0.75rem;
-  border-radius: 20px;
-  font-size: 0.75rem;
-  font-weight: 600;
-  white-space: nowrap;
-}
-
 .cp-card-body {
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
 }
-
 .info-row {
   display: flex;
-  gap: 0.75rem;
-  align-items: flex-start;
-  color: #64748b;
-  font-size: 0.875rem;
-}
-
-.info-row i {
-  margin-top: 0.125rem;
-  color: var(--p-primary-color);
-  opacity: 0.7;
-}
-
-.address-text {
-  line-height: 1.5;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-.cp-card-footer {
-  margin-top: auto;
-  padding-top: 1rem;
-  border-top: 1px solid #f8fafc;
-}
-
-.coordinates {
-  display: flex;
-  align-items: center;
+  justify-content: space-between;
   gap: 0.5rem;
-  font-size: 0.75rem;
-  color: #94a3b8;
-  font-family: monospace;
+  color: #475569;
+  font-size: 0.9rem;
+  font-weight: 500;
 }
 
-.coordinates i {
+.info-row .label {
+  color: #94a3b8;
   font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.stats-row {
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid #eef2f7;
+  padding-top: 0.75rem;
+}
+
+.stats-row .stat {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  color: #475569;
+}
+
+.stats-row .stat strong {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #111827;
 }
 
 .loader-container {

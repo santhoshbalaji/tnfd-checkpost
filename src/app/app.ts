@@ -15,6 +15,9 @@ export class App {
 
   constructor() {
     effect(() => {
+      if (!this.auth.isReady()) {
+        return;
+      }
       const active = this.auth.sessionActive();
       if (active && this.router.url === '/login') {
         this.router.navigate(['/home']);
