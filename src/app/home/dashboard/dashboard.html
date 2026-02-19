@@ -1,5 +1,92 @@
-<div class="dashboard-overview">
-  <header class="dashboard-header">
-    <h1>Dashboard Overview</h1>
+<section class="dashboard-page">
+  <header class="page-header">
+    <div class="header-copy">
+      <p class="eyebrow">Operations Overview</p>
+      <h1>Dashboard</h1>
+      <p class="subtitle">
+        Review the checkposts assigned to your circle and the latest activity at a glance.
+      </p>
+    </div>
+    <div class="header-actions">
+      <p-button
+        label="View Checkposts"
+        icon="pi pi-list"
+        class="primary-action"
+        [routerLink]="['/home/checkposts']"
+      ></p-button>
+    </div>
   </header>
-</div>
+
+  @if (store.isLoading()) {
+    <div class="loader-row">
+      <i class="pi pi-spin pi-spinner emerald-spinner"></i>
+      <p>Loading circle data…</p>
+    </div>
+  } @else {
+    <div class="metrics-grid">
+      <article class="metric-card primary">
+        <p class="metric-label">Accessible Checkposts</p>
+        <strong>{{ store.totalCheckposts() }}</strong>
+        <p class="metric-subtext">
+          Across {{ circleCount() }} circle{{ circleCount() !== 1 ? 's' : '' }}
+        </p>
+      </article>
+      <article class="metric-card">
+        <p class="metric-label">Vehicles checked</p>
+        <strong>{{ totalVehicles() }}</strong>
+      </article>
+      <article class="metric-card">
+        <p class="metric-label">Cases registered</p>
+        <strong>{{ totalCases() }}</strong>
+      </article>
+      <article class="metric-card">
+        <p class="metric-label">Circles</p>
+        <strong>{{ circleCount() }}</strong>
+      </article>
+    </div>
+
+    @if (circleSummaries().length) {
+      <section class="circle-grid">
+        @for (circle of circleSummaries(); track circle.name) {
+          <article class="circle-card">
+            <header>
+              <div>
+                <p class="pill-label">Circle</p>
+                <h2>{{ circle.name }}</h2>
+              </div>
+              <span class="badge">{{ circle.checkposts.length }} checkpost{{ circle.checkposts.length !== 1 ? 's' : '' }}</span>
+            </header>
+
+            <div class="circle-stats">
+              <div>
+                <span>Vehicles checked</span>
+                <strong>{{ circle.totals.vehicles }}</strong>
+              </div>
+              <div>
+                <span>Cases registered</span>
+                <strong>{{ circle.totals.cases }}</strong>
+              </div>
+            </div>
+
+            <div class="circle-checkposts">
+              @for (cp of circle.checkposts.slice(0, 3); track cp.$id) {
+                <span class="chip">{{ cp.name }}</span>
+              } @empty {
+                <span class="chip muted">No checkposts yet</span>
+              }
+              @if (circle.checkposts.length > 3) {
+                <span class="chip more">+{{ circle.checkposts.length - 3 }} more</span>
+              }
+            </div>
+          </article>
+        }
+      </section>
+    } @else {
+      <section class="empty-state card">
+        <i class="pi pi-info-circle"></i>
+        <p>No checkposts are currently assigned to your circle labels.</p>
+        <p>Ask an admin to add you to a circle so you can start monitoring activity.</p>
+      </section>
+    }
+  }
+</section>

@@ -7,6 +7,8 @@
 /bazel-out
 
 /tnfd-internal-apps
+/functions/manage-users/node_modules
+/functions/manage-users/package-lock.json
 
 # Node
 /node_modules

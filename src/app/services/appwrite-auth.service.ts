@@ -15,10 +15,15 @@ export class AppwriteAuthService {
 
   readonly userName = computed(() => this.user()?.name ?? 'User');
   readonly userEmail = computed(() => this.user()?.email ?? '');
+  readonly normalizedLabels = computed(() =>
+    AppwriteAuthService.normalizeLabelArray(this.user()?.labels)
+  );
+  readonly circleLabels = computed(() =>
+    this.normalizedLabels().filter(label => label.toLowerCase() !== 'admin')
+  );
+  readonly hasCircleAccess = computed(() => this.circleLabels().length > 0);
   readonly isAdmin = computed(() =>
-    (this.user()?.labels ?? []).some(label =>
-      typeof label === 'string' && label.trim().toLowerCase() === 'admin'
-    )
+    this.normalizedLabels().some(label => label.toLowerCase() === 'admin')
   );
 
   constructor() {
@@ -100,5 +105,35 @@ export class AppwriteAuthService {
     }
 
     return 'Unable to reach Appwrite authentication.';
+  }
+
+  private static normalizeLabelArray(labels?: unknown): string[] {
+    if (!Array.isArray(labels)) {
+      return [];
+    }
+
+    const seen = new Set<string>();
+    const normalized: string[] = [];
+
+    for (const label of labels) {
+      if (typeof label !== 'string') {
+        continue;
+      }
+
+      const trimmed = label.trim();
+      if (!trimmed) {
+        continue;
+      }
+
+      const key = trimmed.toLowerCase();
+      if (seen.has(key)) {
+        continue;
+      }
+
+      seen.add(key);
+      normalized.push(trimmed);
+    }
+
+    return normalized;
   }
 }

@@ -88,9 +88,16 @@ export class UserStatisticsPage implements OnInit {
 
     try {
       this.isSaving.set(true);
-      if (this.editingUser()) {
+      const editingUser = this.editingUser();
+      if (editingUser) {
+        const userId = editingUser.$id?.trim();
+        if (!userId) {
+          this.setFeedback('error', 'The selected user could not be identified. Please refresh and try again.');
+          return;
+        }
+
         await this.userService.updateUser({
-          userId: this.editingUser()!.$id,
+          userId,
           name: normalizedName,
           email: normalizedEmail,
           labels,

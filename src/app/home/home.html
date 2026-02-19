@@ -19,11 +19,13 @@
           <i class="pi pi-chart-line"></i>
           <span>Dashboard</span>
         </a>
-        @if (auth.isAdmin()) {
+        @if (auth.isAdmin() || auth.hasCircleAccess()) {
           <a routerLink="/home/checkposts" routerLinkActive="active" class="nav-item">
             <i class="pi pi-list"></i>
             <span>Checkposts</span>
           </a>
+        }
+        @if (auth.isAdmin()) {
           <a routerLink="/home/seized-items" routerLinkActive="active" class="nav-item">
             <i class="pi pi-box"></i>
             <span>Seized Items</span>

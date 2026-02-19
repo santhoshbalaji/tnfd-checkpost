@@ -3,10 +3,7 @@
   "version": "1.0.0",
   "description": "Appwrite Cloud Function for managing user accounts and circle permissions.",
   "main": "src/index.js",
-  "engines": {
-    "node": ">=18"
-  },
   "dependencies": {
-    "node-appwrite": "^22.1.0"
+    "node-appwrite": "^21.1.0"
   }
 }

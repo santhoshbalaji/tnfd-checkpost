@@ -80,10 +80,11 @@ export class UserManagementService {
     }
   }
 
-  private async execute<T>(method: ExecutionMethod, payload?: object): Promise<T> {
+  private async execute<T>(method: ExecutionMethod, path: string, payload?: object): Promise<T> {
     const execution = await this.functions.createExecution({
       functionId: this.functionId,
       method,
+      xpath: path,
       body: payload ? JSON.stringify(payload) : undefined
     });
 
@@ -91,7 +92,7 @@ export class UserManagementService {
   }
 
   async listUsers() {
-    const response = await this.execute<ManagedUserListResponse>(ExecutionMethod.GET);
+    const response = await this.execute<ManagedUserListResponse>(ExecutionMethod.GET, '/users');
     const normalized = (response.users ?? []).map(user => ({
       ...user,
       labels: Array.isArray(user.labels) ? user.labels.filter(Boolean) : []
@@ -100,10 +101,7 @@ export class UserManagementService {
   }
 
   async createUser(payload: CreateUserPayload) {
-    const response = await this.execute<CreateUserResponse>(ExecutionMethod.POST, {
-      action: 'create',
-      ...payload
-    });
+    const response = await this.execute<CreateUserResponse>(ExecutionMethod.POST, '/users', payload);
 
     if (!response.user) {
       throw new Error(response.message ?? 'User creation failed.');
@@ -116,10 +114,37 @@ export class UserManagementService {
   }
 
   async updateUser(payload: UpdateUserPayload) {
-    const response = await this.execute<UpdateUserResponse>(ExecutionMethod.POST, {
-      action: 'update',
-      ...payload
-    });
+    const { userId, ...rest } = payload;
+    const normalizedId = userId?.trim();
+
+    if (!normalizedId) {
+      throw new Error('User ID is required to update an existing user.');
+    }
+
+    const body: Record<string, unknown> = {};
+
+    if (rest.name !== undefined) {
+      body['name'] = rest.name;
+    }
+    if (rest.email !== undefined) {
+      body['email'] = rest.email;
+    }
+    if (rest.password !== undefined) {
+      body['password'] = rest.password;
+    }
+    if (rest.labels !== undefined) {
+      body['labels'] = rest.labels;
+    }
+
+    if (!Object.keys(body).length) {
+      throw new Error('At least one field is required to update the user.');
+    }
+
+    const response = await this.execute<UpdateUserResponse>(
+      ExecutionMethod.PATCH,
+      `/users/${normalizedId}`,
+      body
+    );
 
     if (!response.user) {
       throw new Error(response.message ?? 'User update failed.');

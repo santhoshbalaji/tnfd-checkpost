@@ -29,26 +29,33 @@ export class CheckpostListStore {
   private loadPromise: Promise<void> | null = null;
 
   readonly accessibleCheckposts = computed(() => {
-    const labels = this.auth.user()?.labels ?? [];
-    const normalizedLabels = new Set<string>();
-    labels.forEach(label => {
-      const trimmed = label?.trim();
-      if (trimmed) {
-        normalizedLabels.add(trimmed);
-      }
-    });
-
-    if (!normalizedLabels.size || normalizedLabels.has('admin')) {
+    if (this.auth.isAdmin()) {
       return this.checkposts();
     }
 
-    return this.checkposts().filter(cp => normalizedLabels.has((cp.circle ?? '').trim()));
+    const allowedCircles = this.auth.circleLabels();
+    if (!allowedCircles.length) {
+      return [];
+    }
+
+    const normalizedAllowed = new Set<string>(
+      allowedCircles.map(label => label.toLowerCase())
+    );
+
+    return this.checkposts().filter(cp => {
+      const circleName = (cp.circle ?? '').trim();
+      if (!circleName) {
+        return false;
+      }
+      return normalizedAllowed.has(circleName.toLowerCase());
+    });
   });
 
   readonly circles = computed(() => {
     const groups: Record<string, CheckpostWithId[]> = {};
     this.accessibleCheckposts().forEach(cp => {
-      const circle = cp.circle || 'Unassigned';
+      const trimmed = (cp.circle ?? '').trim();
+      const circle = trimmed || 'Unassigned';
       if (!groups[circle]) {
         groups[circle] = [];
       }
