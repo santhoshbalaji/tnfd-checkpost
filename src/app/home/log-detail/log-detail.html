@@ -24,6 +24,10 @@
                 {{ log.vehiclesCheckedCount }} Vehicles Checked
               </p>
               <p class="subtitle">
+                <i class="pi pi-road"></i>
+                {{ log.vehiclesPassedCount ?? 0 }} Vehicles Passed
+              </p>
+              <p class="subtitle">
                 <i class="pi pi-folder"></i>
                 {{ log.casesRegisteredCount }} Cases Registered
               </p>
@@ -277,6 +281,10 @@
         <div class="form-field">
           <label>Total Vehicles Checked</label>
           <input type="number" pInputText formControlName="vehiclesCheckedCount" />
+        </div>
+        <div class="form-field">
+          <label>Total Vehicles Passed</label>
+          <input type="number" pInputText formControlName="vehiclesPassedCount" />
         </div>
       </div>
 

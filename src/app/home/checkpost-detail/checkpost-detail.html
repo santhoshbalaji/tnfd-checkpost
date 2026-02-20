@@ -71,6 +71,7 @@
             <tr>
               <th>Entry Date</th>
               <th>Vehicles Checked</th>
+              <th>Vehicles Passed</th>
               <th>Cases Documented</th>
               <th class="col-action">Details</th>
             </tr>
@@ -79,6 +80,7 @@
             <tr>
               <td class="cell-date">{{ log.logDate | date:'fullDate' }}</td>
               <td>{{ log.vehiclesCheckedCount }}</td>
+              <td>{{ log.vehiclesPassedCount ?? 0 }}</td>
               <td>
                 <span class="case-chip" [class.has-cases]="log.casesRegisteredCount > 0">
                   {{ log.casesRegisteredCount }} Cases
@@ -128,6 +130,12 @@
               <label>Total Vehicles Checked</label>
               <input type="number" pInputText formControlName="vehiclesCheckedCount" placeholder="0" />
             </div>
+            <div class="form-field">
+              <label>Total Vehicles Passed</label>
+              <input type="number" pInputText formControlName="vehiclesPassedCount" placeholder="0" />
+            </div>
+          </div>
+          <div class="form-grid">
             <div class="form-field">
               <label>Log Date</label>
               <input

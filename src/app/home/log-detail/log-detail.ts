@@ -55,7 +55,8 @@ export class LogDetailComponent implements OnInit {
   seizedItemOptions = signal<SeizedItemData[]>([]);
 
   logEditForm: FormGroup = this.fb.group({
-    vehiclesCheckedCount: [0, [Validators.required, Validators.min(0)]]
+    vehiclesCheckedCount: [0, [Validators.required, Validators.min(0)]],
+    vehiclesPassedCount: [0, [Validators.required, Validators.min(0)]]
   });
 
   caseForm: FormGroup = this.fb.group({
@@ -316,7 +317,8 @@ export class LogDetailComponent implements OnInit {
     const log = this.dailyLog();
     if (log) {
       this.logEditForm.patchValue({
-        vehiclesCheckedCount: log.vehiclesCheckedCount
+        vehiclesCheckedCount: log.vehiclesCheckedCount,
+        vehiclesPassedCount: log.vehiclesPassedCount ?? 0
       });
       this.isLogEditModalVisible.set(true);
     }

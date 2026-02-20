@@ -51,6 +51,10 @@
         <strong>{{ totalVehicles() }}</strong>
       </article>
       <article class="metric-card">
+        <p class="metric-label">Vehicles passed</p>
+        <strong>{{ totalVehiclesPassed() }}</strong>
+      </article>
+      <article class="metric-card">
         <p class="metric-label">Cases registered</p>
         <strong>{{ totalCases() }}</strong>
       </article>
@@ -76,6 +80,10 @@
               <div>
                 <span>Vehicles checked</span>
                 <strong>{{ circle.totals.vehicles }}</strong>
+              </div>
+              <div>
+                <span>Vehicles passed</span>
+                <strong>{{ circle.totals.passed }}</strong>
               </div>
               <div>
                 <span>Cases registered</span>

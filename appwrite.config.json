@@ -409,6 +409,14 @@
                     "max": 9223372036854775807
                 },
                 {
+                    "key": "vehiclesPassedCount",
+                    "type": "integer",
+                    "required": true,
+                    "array": false,
+                    "min": 0,
+                    "max": 9223372036854775807
+                },
+                {
                     "key": "casesRegisteredCount",
                     "type": "integer",
                     "required": true,

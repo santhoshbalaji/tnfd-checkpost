@@ -45,6 +45,14 @@ export class DashboardComponent implements OnInit {
     }, 0);
   });
 
+  readonly totalVehiclesPassed = computed(() => {
+    const totalsMap = this.store.totals();
+    return this.store.accessibleCheckposts().reduce((acc, cp) => {
+      const entry = totalsMap[cp.$id];
+      return acc + (entry?.passed ?? 0);
+    }, 0);
+  });
+
   readonly circleCount = computed(() => this.store.circles().length);
 
   readonly circleSummaries = computed(() => {
@@ -56,10 +64,11 @@ export class DashboardComponent implements OnInit {
           const entry = totalsMap[cp.$id];
           return {
             vehicles: acc.vehicles + (entry?.vehicles ?? 0),
-            cases: acc.cases + (entry?.cases ?? 0)
+            cases: acc.cases + (entry?.cases ?? 0),
+            passed: acc.passed + (entry?.passed ?? 0)
           };
         },
-        { vehicles: 0, cases: 0 }
+        { vehicles: 0, cases: 0, passed: 0 }
       );
 
       return {

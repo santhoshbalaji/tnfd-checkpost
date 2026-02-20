@@ -14,6 +14,7 @@ interface CircleGroup {
 interface CheckpostTotals {
   vehicles: number;
   cases: number;
+  passed: number;
 }
 
 @Injectable({
@@ -130,21 +131,26 @@ export class CheckpostListStore {
             const summary = (logs.documents as Array<any>).reduce(
               (acc, log) => ({
                 vehicles: acc.vehicles + (Number(log.vehiclesCheckedCount) || 0),
-                cases: acc.cases + (Number(log.casesRegisteredCount) || 0)
+                cases: acc.cases + (Number(log.casesRegisteredCount) || 0),
+                passed: acc.passed + (Number(log.vehiclesPassedCount) || 0)
               }),
-              { vehicles: 0, cases: 0 }
+              { vehicles: 0, cases: 0, passed: 0 }
             );
             return { id: cp.$id, ...summary };
           } catch (error) {
             console.error(`Failed to load stats for ${cp.$id} on ${dateKey}`, error);
-            return { id: cp.$id, vehicles: 0, cases: 0 };
+            return { id: cp.$id, vehicles: 0, cases: 0, passed: 0 };
           }
         })
       );
 
       const statsMap: Record<string, CheckpostTotals> = {};
       entries.forEach(entry => {
-        statsMap[entry.id] = { vehicles: entry.vehicles, cases: entry.cases };
+        statsMap[entry.id] = {
+          vehicles: entry.vehicles,
+          cases: entry.cases,
+          passed: entry.passed
+        };
       });
 
       this.totals.set(statsMap);
