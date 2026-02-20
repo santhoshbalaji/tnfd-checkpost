@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, computed, inject, OnInit } from '@angular/core';
+import { Component, ChangeDetectionStrategy, computed, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
@@ -14,6 +14,20 @@ import { CheckpostListStore } from '../../services/checkpost-list.store';
 })
 export class DashboardComponent implements OnInit {
   readonly store = inject(CheckpostListStore);
+  readonly selectedDate = signal(this.formatDateForInput(new Date()));
+  readonly selectedDateLabel = computed(() => {
+    const value = this.selectedDate();
+    const dateKey = value || this.formatDateForInput(new Date());
+    const date = new Date(`${dateKey}T00:00:00`);
+    if (Number.isNaN(date.getTime())) {
+      return dateKey;
+    }
+    return this.dateFormatter.format(date);
+  });
+  readonly isTotalsLoading = signal(false);
+  private readonly dateFormatter = new Intl.DateTimeFormat('en-IN', {
+    dateStyle: 'long'
+  });
 
   readonly totalVehicles = computed(() => {
     const totalsMap = this.store.totals();
@@ -56,7 +70,33 @@ export class DashboardComponent implements OnInit {
     });
   });
 
-  ngOnInit() {
-    void this.store.loadCheckposts();
+  async ngOnInit() {
+    await this.store.loadCheckposts();
+    await this.loadTotalsForSelectedDate();
+  }
+
+  onDateChange(value: string) {
+    if (!value) {
+      return;
+    }
+    this.selectedDate.set(value);
+    void this.loadTotalsForSelectedDate();
+  }
+
+  private async loadTotalsForSelectedDate() {
+    this.isTotalsLoading.set(true);
+    try {
+      await this.store.loadTotalsForDate(this.selectedDate());
+    } catch (error) {
+      console.error('Failed to refresh dashboard totals', error);
+    } finally {
+      this.isTotalsLoading.set(false);
+    }
+  }
+
+  private formatDateForInput(date: Date) {
+    const offsetMs = date.getTimezoneOffset() * 60000;
+    const local = new Date(date.getTime() - offsetMs);
+    return local.toISOString().split('T')[0];
   }
 }

@@ -72,6 +72,7 @@ export class CheckpostListStore {
 
   readonly totalCheckposts = computed(() => this.accessibleCheckposts().length);
   readonly totals = signal<Record<string, CheckpostTotals>>({});
+  readonly totalsDate = signal('');
 
   async loadCheckposts() {
     if (this.hasLoaded()) {
@@ -88,7 +89,6 @@ export class CheckpostListStore {
         const response = await this.checkpostService.getCheckposts();
         const loaded = response.documents as unknown as CheckpostWithId[];
         this.checkposts.set(loaded);
-        void this.loadTotals(loaded);
         this.hasLoaded.set(true);
       } catch (error) {
         console.error('Failed to load checkposts', error);
@@ -101,38 +101,78 @@ export class CheckpostListStore {
     return this.loadPromise;
   }
 
-  private async loadTotals(checkposts: CheckpostWithId[]) {
-    if (!checkposts.length) {
+  async loadTotalsForDate(dateValue: string | Date) {
+    const dateKey = this.formatDateKey(dateValue);
+    if (!dateKey) {
       this.totals.set({});
+      this.totalsDate.set('');
       return;
     }
 
+    if (!this.hasLoaded()) {
+      await this.loadCheckposts();
+    }
+
+    const checkposts = this.accessibleCheckposts();
+    if (!checkposts.length) {
+      this.totals.set({});
+      this.totalsDate.set(dateKey);
+      return;
+    }
+
+    this.totals.set({});
     try {
-      const entries = await Promise.all(checkposts.map(async cp => {
-        try {
-          const logs = await this.checkpostService.getDailyLogs(cp.$id, 500);
-          const summary = (logs.documents as Array<any>).reduce(
-            (acc, log) => ({
-              vehicles: acc.vehicles + (Number(log.vehiclesCheckedCount) || 0),
-              cases: acc.cases + (Number(log.casesRegisteredCount) || 0)
-            }),
-            { vehicles: 0, cases: 0 }
-          );
-          return { id: cp.$id, ...summary };
-        } catch (error) {
-          console.error(`Failed to load stats for ${cp.$id}`, error);
-          return { id: cp.$id, vehicles: 0, cases: 0 };
-        }
-      }));
+      const isoDate = this.toIsoDate(dateKey);
+      const entries = await Promise.all(
+        checkposts.map(async cp => {
+          try {
+            const logs = await this.checkpostService.getDailyLogsForDate(cp.$id, isoDate);
+            const summary = (logs.documents as Array<any>).reduce(
+              (acc, log) => ({
+                vehicles: acc.vehicles + (Number(log.vehiclesCheckedCount) || 0),
+                cases: acc.cases + (Number(log.casesRegisteredCount) || 0)
+              }),
+              { vehicles: 0, cases: 0 }
+            );
+            return { id: cp.$id, ...summary };
+          } catch (error) {
+            console.error(`Failed to load stats for ${cp.$id} on ${dateKey}`, error);
+            return { id: cp.$id, vehicles: 0, cases: 0 };
+          }
+        })
+      );
 
       const statsMap: Record<string, CheckpostTotals> = {};
       entries.forEach(entry => {
         statsMap[entry.id] = { vehicles: entry.vehicles, cases: entry.cases };
       });
+
       this.totals.set(statsMap);
+      this.totalsDate.set(dateKey);
     } catch (error) {
-      console.error('Failed to compute checkpost totals', error);
+      console.error('Failed to compute daily totals', error);
       this.totals.set({});
+      this.totalsDate.set(dateKey);
     }
+  }
+
+  private formatDateKey(dateValue: string | Date) {
+    if (!dateValue) {
+      return '';
+    }
+    const parsed = typeof dateValue === 'string' ? new Date(dateValue) : dateValue;
+    if (Number.isNaN(parsed.getTime())) {
+      return '';
+    }
+    const offsetMs = parsed.getTimezoneOffset() * 60000;
+    const local = new Date(parsed.getTime() - offsetMs);
+    return local.toISOString().split('T')[0];
+  }
+
+  private toIsoDate(dateKey: string) {
+    if (!dateKey) {
+      return '';
+    }
+    return new Date(`${dateKey}T00:00:00`).toISOString();
   }
 }

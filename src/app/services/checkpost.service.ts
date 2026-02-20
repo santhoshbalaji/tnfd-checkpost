@@ -180,6 +180,23 @@ export class CheckpostService {
     }
   }
 
+  async getDailyLogsForDate(checkpostId: string, logDate: string, limit = 50) {
+    try {
+      return await this.databases.listDocuments(
+        this.DATABASE_ID,
+        this.DAILY_LOGS_COLLECTION,
+        [
+          Query.equal('checkpostId', checkpostId),
+          Query.equal('logDate', logDate),
+          Query.limit(limit)
+        ]
+      );
+    } catch (error) {
+      console.error('Error fetching daily logs for date:', error);
+      throw error;
+    }
+  }
+
   async getCasesForLog(logId: string) {
     try {
       return await this.databases.listDocuments(

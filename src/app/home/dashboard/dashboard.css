@@ -43,6 +43,56 @@
 
 .header-actions {
   display: flex;
+  gap: 1rem;
+  align-items: flex-end;
+  flex-wrap: wrap;
+}
+
+.date-filter {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.date-filter label {
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--apple-text-secondary);
+}
+
+.date-control {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.35rem 0.6rem;
+  border-radius: 10px;
+  border: 1px solid var(--content-border);
+  background: var(--apple-bg);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.04);
+}
+
+.date-control input {
+  border: none;
+  padding: 0.35rem 0.3rem;
+  font-size: 0.9rem;
+  background: transparent;
+  font-family: inherit;
+}
+
+.date-control input:focus {
+  outline: none;
+}
+
+.date-control i {
+  font-size: 1rem;
+  color: var(--p-primary-color);
+}
+
+.date-hint {
+  margin: 0;
+  font-size: 0.75rem;
+  color: var(--apple-text-secondary);
 }
 
 .primary-action {
