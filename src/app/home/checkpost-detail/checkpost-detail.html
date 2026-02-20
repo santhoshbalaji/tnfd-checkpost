@@ -147,10 +147,10 @@
             </div>
           </div>
 
-          @if (isSelectedDateToday() && hasLogForToday()) {
+          @if (hasSelectedDateEntry()) {
             <div class="form-warning">
               <i class="pi pi-exclamation-triangle"></i>
-              <span>A log is already recorded for today. Pick a previous date to add any missing entries.</span>
+              <span>A log is already recorded for {{ getSelectedDateDisplay() }} IST. Choose a different date.</span>
             </div>
           }
 
@@ -161,7 +161,7 @@
               [loading]="isSavingLog()"
               icon="pi pi-check"
               (onClick)="saveLog()"
-              [disabled]="logForm.invalid || (isSelectedDateToday() && hasLogForToday())"
+              [disabled]="logForm.invalid || hasSelectedDateEntry()"
             />
           </div>
         </form>

@@ -66,6 +66,11 @@ export class CheckpostDetailComponent implements OnInit {
     logDate: [this.formatDateForInput(this.today), Validators.required]
   });
 
+  private readonly istDateFormatter = new Intl.DateTimeFormat('en-IN', {
+    dateStyle: 'long',
+    timeZone: 'Asia/Kolkata'
+  });
+
   async ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
@@ -113,15 +118,51 @@ export class CheckpostDetailComponent implements OnInit {
       if (!cp) return;
 
       const selectedDate = this.logForm.value.logDate;
-      if (this.isSelectedDateToday() && this.hasLogForToday()) {
-        this.messageService.add({ severity: 'warn', summary: 'Duplicate', detail: 'A log already exists for today.' });
+      if (this.hasLogForDate(selectedDate)) {
+        this.messageService.add({
+          severity: 'warn',
+          summary: 'Duplicate',
+          detail: `A log already exists for ${this.getSelectedDateDisplay()} IST.`
+        });
+        this.isSavingLog.set(false);
+        return;
+      }
+
+      const logDateIso = this.toIstIsoDate(selectedDate);
+      if (!logDateIso) {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Invalid date',
+          detail: 'Unable to parse the selected date. Please try a different date.'
+        });
+        this.isSavingLog.set(false);
+        return;
+      }
+
+      try {
+        if (await this.hasServerLogForDate(cp.$id, logDateIso)) {
+          this.messageService.add({
+            severity: 'warn',
+            summary: 'Duplicate',
+            detail: `A log already exists for ${this.getSelectedDateDisplay()} IST.`
+          });
+          this.isSavingLog.set(false);
+          return;
+        }
+      } catch (error) {
+        console.error('Error verifying daily log availability:', error);
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Verification failed',
+          detail: 'Unable to confirm whether a daily entry exists. Please try again.'
+        });
         this.isSavingLog.set(false);
         return;
       }
 
       const logData = {
         checkpostId: cp.$id,
-        logDate: new Date(`${selectedDate}T00:00:00`).toISOString(),
+        logDate: logDateIso,
         vehiclesCheckedCount: this.logForm.value.vehiclesCheckedCount,
         vehiclesPassedCount: this.logForm.value.vehiclesPassedCount,
         casesRegisteredCount: 0
@@ -178,8 +219,7 @@ export class CheckpostDetailComponent implements OnInit {
   }
 
   hasLogForToday() {
-    const todayKey = this.normalizeDateValue(this.today);
-    return this.dailyLogs().some(log => this.normalizeDateValue(log.logDate) === todayKey);
+    return this.hasLogForDate(new Date());
   }
 
   isSelectedDateToday() {
@@ -187,18 +227,73 @@ export class CheckpostDetailComponent implements OnInit {
     if (!selected) {
       return false;
     }
-    return this.normalizeDateValue(selected) === this.normalizeDateValue(this.today);
+    return this.toIstDateKey(selected) === this.toIstDateKey(new Date());
   }
 
-  private normalizeDateValue(value?: string | Date) {
+  hasLogForDate(value?: string | Date) {
+    const targetKey = this.toIstDateKey(value);
+    if (!targetKey) {
+      return false;
+    }
+    return this.dailyLogs().some(log => this.toIstDateKey(log.logDate) === targetKey);
+  }
+
+  hasSelectedDateEntry() {
+    return this.hasLogForDate(this.logForm.get('logDate')?.value);
+  }
+
+  getSelectedDateDisplay() {
+    const selected = this.logForm.get('logDate')?.value;
+    const istDate = this.toIstDate(selected);
+    return istDate ? this.istDateFormatter.format(istDate) : 'the selected date';
+  }
+
+  private toIstDateKey(value?: string | Date) {
+    const istDate = this.toIstDate(value);
+    if (!istDate) {
+      return '';
+    }
+    return istDate.toISOString().split('T')[0];
+  }
+
+  private toIstDate(value?: string | Date) {
+    if (!value) {
+      return null;
+    }
+    const parsed = typeof value === 'string'
+      ? value.includes('T')
+        ? new Date(value)
+        : new Date(`${value}T00:00:00`)
+      : value;
+    if (Number.isNaN(parsed.getTime())) {
+      return null;
+    }
+    return new Date(parsed.getTime() + 330 * 60000);
+  }
+
+  private toIstIsoDate(value?: string | Date) {
     if (!value) {
       return '';
     }
-    const date = typeof value === 'string' ? new Date(value) : value;
-    if (Number.isNaN(date.getTime())) {
-      return '';
+    if (typeof value === 'string') {
+      if (value.includes('T')) {
+        const parsed = new Date(value);
+        if (Number.isNaN(parsed.getTime())) {
+          return '';
+        }
+        const istDate = this.toIstDate(parsed);
+        return istDate ? istDate.toISOString() : '';
+      }
+      const withOffset = new Date(`${value}T00:00:00+05:30`);
+      return Number.isNaN(withOffset.getTime()) ? '' : withOffset.toISOString();
     }
-    return this.formatDateForInput(date);
+    const istDate = this.toIstDate(value);
+    return istDate ? istDate.toISOString() : '';
+  }
+
+  private async hasServerLogForDate(checkpostId: string, logDateIso: string) {
+    const response = await this.checkpostService.getDailyLogsForDate(checkpostId, logDateIso, 1);
+    return Array.isArray(response.documents) && response.documents.length > 0;
   }
 
   private formatDateForInput(date: Date) {
