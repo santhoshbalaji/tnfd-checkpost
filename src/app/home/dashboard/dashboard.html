@@ -8,27 +8,65 @@
       </p>
     </div>
     <div class="header-actions">
-      <div class="date-filter">
-        <label for="dashboard-date">Date filter</label>
-        <div class="date-control">
-          <input
-            id="dashboard-date"
-            type="date"
-            [value]="selectedDate()"
-            (change)="onDateChange($event.target.value)"
-          />
-          @if (isTotalsLoading()) {
-            <i class="pi pi-spin pi-spinner" aria-hidden="true"></i>
-          }
+      <div class="filters-block">
+        <div class="filter-mode" role="group" aria-label="Filter type">
+          <button type="button" class="mode-btn" [class.active]="activeFilter() === 'year'" (click)="setActiveFilter('year')">Year</button>
+          <button type="button" class="mode-btn" [class.active]="activeFilter() === 'month'" (click)="setActiveFilter('month')">Month</button>
+          <button type="button" class="mode-btn" [class.active]="activeFilter() === 'date'" (click)="setActiveFilter('date')">Date</button>
         </div>
-        <p class="date-hint">Showing data for {{ selectedDateLabel() }}</p>
+          <div class="filters-row">
+            <div class="filter-group" [class.disabled]="activeFilter() !== 'year'">
+            <label for="dashboard-year">Year</label>
+            <select
+              id="dashboard-year"
+              [value]="selectedYear()"
+              (change)="onYearChange($any($event.target).value)"
+              [disabled]="activeFilter() !== 'year' || !availableYears().length"
+            >
+              @if (availableYears().length) {
+                @for (year of availableYears(); track year) {
+                  <option [value]="year">{{ year }}</option>
+                }
+              } @else {
+                <option value="">No year data</option>
+              }
+            </select>
+          </div>
+            <div class="filter-group" [class.disabled]="activeFilter() !== 'month'">
+            <label for="dashboard-month">Month</label>
+            <select
+              id="dashboard-month"
+              [value]="selectedMonth()"
+              (change)="onMonthChange($any($event.target).value)"
+              [disabled]="activeFilter() !== 'month' || !availableMonths().length"
+            >
+              @if (availableMonths().length) {
+                @for (month of availableMonths(); track month.value) {
+                  <option [value]="month.value">{{ month.label }}</option>
+                }
+              } @else {
+                <option value="">No month data</option>
+              }
+            </select>
+          </div>
+            <div class="filter-group date-filter" [class.disabled]="activeFilter() !== 'date'">
+            <label for="dashboard-date">Date filter</label>
+            <div class="date-control">
+              <input
+                id="dashboard-date"
+                type="date"
+                [value]="selectedDate()"
+                  (change)="onDateChange($event.target.value)"
+                  [disabled]="activeFilter() !== 'date' || (!availableDatesForSelection().length && !selectedDate())"
+              />
+              @if (isTotalsLoading()) {
+                <i class="pi pi-spin pi-spinner" aria-hidden="true"></i>
+              }
+            </div>
+          </div>
+          </div>
+          <p class="filter-status" aria-live="polite">{{ activeFilterLabel() }}</p>
       </div>
-      <p-button
-        label="View Checkposts"
-        icon="pi pi-list"
-        class="primary-action"
-        [routerLink]="['/home/checkposts']"
-      ></p-button>
     </div>
   </header>
 

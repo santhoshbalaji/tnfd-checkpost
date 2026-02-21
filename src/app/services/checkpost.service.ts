@@ -197,6 +197,24 @@ export class CheckpostService {
     }
   }
 
+  async getDailyLogsForRange(checkpostId: string, startDate: string, endDate: string, limit = 1000) {
+    try {
+      return await this.databases.listDocuments(
+        this.DATABASE_ID,
+        this.DAILY_LOGS_COLLECTION,
+        [
+          Query.equal('checkpostId', checkpostId),
+          Query.greaterThanEqual('logDate', startDate),
+          Query.lessThan('logDate', endDate),
+          Query.limit(limit)
+        ]
+      );
+    } catch (error) {
+      console.error('Error fetching daily logs for range:', error);
+      throw error;
+    }
+  }
+
   async getCasesForLog(logId: string) {
     try {
       return await this.databases.listDocuments(

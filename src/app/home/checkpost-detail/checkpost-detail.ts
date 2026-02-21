@@ -9,6 +9,7 @@ import { TableModule } from 'primeng/table';
 import { DialogModule } from 'primeng/dialog';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
+import { formatDateForIstInput } from '../../utils/date-helpers';
 
 interface CheckpostWithId extends CheckpostData {
   $id: string;
@@ -297,8 +298,6 @@ export class CheckpostDetailComponent implements OnInit {
   }
 
   private formatDateForInput(date: Date) {
-    const offsetMs = date.getTimezoneOffset() * 60000;
-    const local = new Date(date.getTime() - offsetMs);
-    return local.toISOString().split('T')[0];
+    return formatDateForIstInput(date);
   }
 }

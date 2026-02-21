@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit, computed, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CheckpostListStore } from '../../services/checkpost-list.store';
+import { formatDateForIstInput } from '../../utils/date-helpers';
 
 @Component({
   selector: 'app-checkposts-date-filter',
@@ -50,8 +51,6 @@ export class CheckpostsDateFilterComponent implements OnInit {
   }
 
   private formatDateForInput(date: Date) {
-    const offsetMs = date.getTimezoneOffset() * 60000;
-    const local = new Date(date.getTime() - offsetMs);
-    return local.toISOString().split('T')[0];
+    return formatDateForIstInput(date);
   }
 }
