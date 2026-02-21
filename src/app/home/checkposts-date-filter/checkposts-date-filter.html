@@ -1,0 +1,16 @@
+<div class="list-controls">
+  <label for="checkpost-date">Date filter</label>
+  <div class="date-control">
+    <input
+      id="checkpost-date"
+      type="date"
+      [value]="selectedDate()"
+      (change)="onDateChange($event.target.value)"
+      [max]="todayValue"
+    />
+    @if (isTotalsLoading()) {
+      <i class="pi pi-spin pi-spinner" aria-hidden="true"></i>
+    }
+  </div>
+  <p class="date-hint" aria-live="polite">Showing data for {{ selectedDateLabel() }}</p>
+</div>

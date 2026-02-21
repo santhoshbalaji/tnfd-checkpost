@@ -6,7 +6,6 @@ import { CheckpostListStore } from '../../services/checkpost-list.store';
 
 @Component({
   selector: 'app-checkposts-list',
-  standalone: true,
   imports: [CommonModule, RouterLink, ButtonModule],
   templateUrl: './checkposts-list.html',
   styleUrls: ['./checkposts-list.css'],
@@ -14,7 +13,6 @@ import { CheckpostListStore } from '../../services/checkpost-list.store';
 })
 export class CheckpostsListComponent implements OnInit {
   readonly store = inject(CheckpostListStore);
-
   async ngOnInit() {
     await this.store.loadCheckposts();
   }

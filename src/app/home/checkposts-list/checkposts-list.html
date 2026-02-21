@@ -37,16 +37,20 @@
                     <span>{{ cp.division }}</span>
                   </div>
                 </div>
-                <div class="stats-row">
-                  <div class="stat">
-                    <span class="label">Vehicles checked</span>
-                    <strong>{{ store.totals()[cp.$id]?.vehicles ?? 0 }}</strong>
+                  <div class="stats-row">
+                    <div class="stat">
+                      <span class="label">Vehicles passed</span>
+                      <strong>{{ store.totals()[cp.$id]?.passed ?? 0 }}</strong>
+                    </div>
+                    <div class="stat">
+                      <span class="label">Vehicles checked</span>
+                      <strong>{{ store.totals()[cp.$id]?.vehicles ?? 0 }}</strong>
+                    </div>
+                    <div class="stat">
+                      <span class="label">Cases registered</span>
+                      <strong>{{ store.totals()[cp.$id]?.cases ?? 0 }}</strong>
+                    </div>
                   </div>
-                  <div class="stat">
-                    <span class="label">Cases registered</span>
-                    <strong>{{ store.totals()[cp.$id]?.cases ?? 0 }}</strong>
-                  </div>
-                </div>
               </div>
             }
           </div>

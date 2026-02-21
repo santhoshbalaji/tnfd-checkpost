@@ -9,6 +9,23 @@
   margin-bottom: 2rem;
 }
 
+.header-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+
+.header-filter {
+  flex: 0 1 auto;
+}
+
+.header-text {
+  flex: 1 1 0;
+  min-width: 220px;
+}
+
 .eyebrow {
   font-size: 0.75rem;
   color: var(--p-primary-color);
